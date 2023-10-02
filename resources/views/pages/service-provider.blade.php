@@ -37,7 +37,7 @@
                     <div class="flex flex-row items-center justify-between lg:justify-start">
                         <a class="text-lg tracking-tight text-black uppercase focus:outline-none focus:ring lg:text-2xl"
                             href="/">
-                            <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                            <img src="{{ asset('images/alisto-logo.png') }}" class="h-14" alt="">
                         </a>
                         <button @click="open = !open"
                             class="inline-flex items-center justify-center p-2 text-gray-400 hover:text-black focus:outline-none focus:text-black md:hidden">
@@ -280,7 +280,7 @@
                     <div class="xl:col-span-1">
                         <a href="/"
                             class="text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform text-black tracking-relaxed lg:pr-8">
-                            <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                            <img src="{{ asset('images/alisto-logo.png') }}" alt="">
                         </a>
                         <p class="w-1/2 mt-2 text-sm text-gray-100">
 

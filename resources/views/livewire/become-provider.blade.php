@@ -59,7 +59,7 @@
         <div class="relative top-0 bottom-0 right-0 flex-shrink-0 hidden w-1/3 overflow-hidden bg-cover lg:block">
             <a href="#_"
                 class="absolute bottom-0 left-0 z-30 inline-flex items-end mb-4 ml-3 font-sans text-2xl font-extrabold text-left text-white no-underline bg-transparent cursor-pointer group focus:no-underline">
-                <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                <img src="{{ asset('images/alisto-logo.png') }}" class="h-32 " alt="">
             </a>
             <div class="absolute inset-0 z-20 w-full h-full opacity-70 bg-gradient-to-t from-main"></div>
             <img src="https://plus.unsplash.com/premium_photo-1679775634064-93628bf1d0cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2xlYW5pbmclMjBzZXJ2aWNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"

@@ -12,7 +12,9 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="font-bold text-main text-3xl">50</p>
+                    <p class="font-bold text-main text-3xl">
+                        {{ \App\Models\Service::where('service_provider_id', auth()->user()->service_provider->id)->count() }}
+                    </p>
                     <p class="mt-1 text-gray-500">Total Services</p>
                 </div>
                 <div class="absolute -bottom-2 -right-2">
@@ -33,7 +35,9 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="font-bold text-main text-3xl">24</p>
+                    <p class="font-bold text-main text-3xl">
+                        {{ \App\Models\ClientAppointment::where('service_provider_id', auth()->user()->service_provider->id)->count() }}
+                    </p>
                     <p class="mt-1 text-gray-500">Total Appointments </p>
                 </div>
                 <div class="absolute -bottom-2 -right-2">
@@ -54,7 +58,9 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="font-bold text-main text-3xl">100</p>
+                    <p class="font-bold text-main text-3xl">
+                        {{ \App\Models\ClientAppointment::where('service_provider_id', auth()->user()->service_provider->id)->get()->groupBy('user_id')->count() }}
+                    </p>
                     <p class="mt-1 text-gray-500">Total Client </p>
                 </div>
                 <div class="absolute -bottom-2 -right-2">
@@ -66,6 +72,10 @@
                     </svg>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-5">
+            <livewire:provider.provider-dashboard />
         </div>
     </div>
 </x-provider-layout>

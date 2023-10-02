@@ -27,7 +27,7 @@ Route::get('/became-a-service-provider', function () {
 Route::get('/dashboard', function () {
     if (auth()->user()->user_type === 'admin') {
         return redirect()->route('admin.dashboard');
-    } elseif (auth()->user()->user_type === 'service_provider') {
+    } elseif (auth()->user()->user_type === 'service provider') {
         return redirect()->route('provider.dashboard');
     } else {
         return redirect()->route('client.dashboard');
@@ -46,6 +46,19 @@ Route::prefix('administrator')->middleware(['auth', 'verified'])->group(function
     Route::get('/services-category', function () {
         return view('admin.category');
     })->name('admin.category');
+    Route::get('/services-category-add', function () {
+        return view('admin.category.add');
+    })->name('admin.category.add');
+    Route::get('/service-providers', function () {
+        return view('admin.service-providers');
+    })->name('admin.service-providers');
+    Route::get('/clients', function () {
+        return view('admin.clients');
+    })->name('admin.clients');
+    Route::get('/accounts', function () {
+        return view('admin.accounts');
+    })->name('admin.accounts');
+
 });
 
 //CLIENT
@@ -53,6 +66,18 @@ Route::prefix('client')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('client.index');
     })->name('client.dashboard');
+    Route::get('/services/{id}', function () {
+        return view('client.services');
+    })->name('client.services');
+    Route::get('/services/provider/{id}', function () {
+        return view('client.services-provider');
+    })->name('client.services-provider');
+    Route::get('/appointments', function () {
+        return view('client.appointments');
+    })->name('client.appointments');
+    Route::get('/location/{id}', function () {
+        return view('client.locations');
+    })->name('client.locations');
 
 });
 
@@ -65,6 +90,9 @@ Route::prefix('service-provider')->middleware(['auth', 'verified'])->group(funct
     Route::get('/services', function () {
         return view('provider.services');
     })->name('provider.services');
+    Route::get('/appointments', function () {
+        return view('provider.appointments');
+    })->name('provider.appointments');
 });
 
 Route::middleware('auth')->group(function () {

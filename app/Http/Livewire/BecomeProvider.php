@@ -39,7 +39,7 @@ class BecomeProvider extends Component
             'name' => $this->provider_name,
             'email' => $this->email,
             'password' => $this->password,
-            'user_type' => 'service_provider'
+            'user_type' => 'service provider'
         ]);
 
         ServiceProvider::create([

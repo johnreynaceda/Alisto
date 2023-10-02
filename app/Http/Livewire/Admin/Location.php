@@ -41,6 +41,7 @@ class Location extends Component implements Tables\Contracts\HasTable
                         'zip_code' => $data['zipcode']
                     ]);
 
+                    toastr()->addSuccess('Location added successfully');
                 }
             )->form(
                     [
@@ -60,6 +61,7 @@ class Location extends Component implements Tables\Contracts\HasTable
             Action::make('edit')->label('Edit')->icon('heroicon-o-pencil-alt')->color('success')->action(
                 function ($record, $data) {
                     $record->update($data);
+                    toastr()->addSuccess('Location updated successfully');
                 }
             )->form(
                     function ($record) {

@@ -10,4 +10,9 @@ class ServiceCategory extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function service_providers()
+    {
+        return $this->hasMany(ServiceProvider::class);
+    }
 }

@@ -39,21 +39,15 @@ class Category extends Component implements Tables\Contracts\HasTable
         return [
             Action::make('new_category')->label('New Category')->button()->size('md')->color('gray')->icon('heroicon-o-plus-circle')->action(
                 function ($record, $data) {
-                    ServiceCategory::create([
-                        'name' => $data['name'],
-                        'avg_project' => $data['avg_project'],
-                    ]);
+                    // ServiceCategory::create([
+                    //     'name' => $data['name'],
+                    //     'avg_project' => $data['avg_project'],
+                    // ]);
+        
+                    return redirect()->route('admin.category.add');
 
                 }
-            )->form(
-                    [
-                        Fieldset::make('CATEGORY INFORMATION')
-                            ->schema([
-                                TextInput::make('name')->label('Name')->required(),
-                                TextInput::make('avg_project')->label('Average Project')->required(),
-                            ])->columns(1)
-                    ]
-                )->modalWidth('xl'),
+            ),
         ];
     }
 

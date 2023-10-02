@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="shortcut icon" href="{{ asset('images/alisto-logo.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,7 +28,7 @@
             class="w-full relative sm:max-w-md mt-6 px-6 py-6 bg-white rounded-lg shadow-md overflow-hidden sm:rounded-lg">
             <div class="flex justify-center items-center">
                 <a href="/">
-                    <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                    <img src="{{ asset('images/alisto-logo.png') }}" class="h-32" alt="">
                 </a>
             </div>
             <div class="mt-10">

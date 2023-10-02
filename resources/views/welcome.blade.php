@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="shortcut icon" href="{{ asset('images/alisto-logo1.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('images/alisto-logo.png') }}" />
 
 
     <!-- Fonts -->
@@ -58,7 +58,7 @@
                     <div class="flex flex-row items-center justify-between lg:justify-start">
                         <a class="text-lg tracking-tight text-black uppercase focus:outline-none focus:ring lg:text-2xl"
                             href="/">
-                            <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                            <img src="{{ asset('images/alisto-logo.png') }}" class="h-14" alt="">
                         </a>
                         <button @click="open = !open"
                             class="inline-flex items-center justify-center p-2 text-gray-400 hover:text-black focus:outline-none focus:text-black md:hidden">
@@ -79,10 +79,66 @@
 
 
                         <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
-                            <a class="px-2 py-2 font-medium text-gray-500 lg:px-6 md:px-3 hover:text-main"
-                                href="#">
-                                Locations
-                            </a>
+                            <div @click.away="data = false" class="relative" x-data="{ data: false }">
+                                <button @click="data = !data"
+                                    class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
+                                    <span>
+                                        Locations
+                                    </span>
+                                    <svg fill="currentColor" viewBox="0 0 20 20"
+                                        :class="{ 'rotate-180': open, 'rotate-0': !open }"
+                                        class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                                <div x-show="data" x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="transform opacity-0 scale-95"
+                                    x-transition:enter-end="transform opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="transform opacity-100 scale-100"
+                                    x-transition:leave-end="transform opacity-0 scale-95"
+                                    class="absolute z-10 w-screen max-w-3xl px-2 mt-3 transform -translate-x-1/2 left-1/3 sm:px-0"
+                                    style="display: none;">
+                                    <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                        <div class="relative grid gap-6  py-6 bg-white bg-opacity-90 sm:gap-8 sm:p-8">
+                                            <div class="">
+                                                <div class="grid grid-cols-3 gap-8">
+                                                    @foreach (\App\Models\Location::get() as $item)
+                                                        <a href="#"
+                                                            class="inline-flex items-start p-3 border hover:shadow hover:shadow-main group -m-3 transition duration-150 ease-in-out rounded-xl hover:bg-gray-100">
+                                                            <div class="ml-4 flex w-full justify-between items-center">
+                                                                <div class="flex items-center space-x-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-5 w-5 fill-red-500"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M2 5L9 2L15 5L21.303 2.2987C21.5569 2.18992 21.8508 2.30749 21.9596 2.56131C21.9862 2.62355 22 2.69056 22 2.75827V19L15 22L9 19L2.69696 21.7013C2.44314 21.8101 2.14921 21.6925 2.04043 21.4387C2.01375 21.3765 2 21.3094 2 21.2417V5ZM15 19.7639V7.17594L14.9352 7.20369L9 4.23607V16.8241L9.06476 16.7963L15 19.7639Z">
+                                                                        </path>
+                                                                    </svg>
+                                                                    <p class="text-base font-medium text-gray-700">
+                                                                        {{ $item->location }}
+                                                                    </p>
+                                                                </div>
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 24 24"
+                                                                    class="h-5 w-5 fill-transparent group-hover:fill-main">
+                                                                    <path
+                                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                                    </path>
+                                                                </svg>
+                                                            </div>
+                                                        </a>
+                                                    @endforeach
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div @click.away="data = false" class="relative" x-data="{ data: false }">
                                 <button @click="data = !data"
                                     class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
@@ -234,121 +290,36 @@
                 <div class="w-20 h-1 bg-main rounded-full"></div>
             </header>
             <div class="mt-5 grid grid-cols-1 2xl:grid-cols-4 gap-5">
-                <a href="" class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                    <div class="flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581578949510-fa7315c4c350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsZWFuaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                            class="h-56 object-cover rounded-xl m-2" alt="">
-                        <div class="p-3">
-                            <p class="font-semibold text-main mt-5 text-lg text-center">Furniture
-                                Assembly</p>
+                @forelse (\App\Models\ServiceCategory::whereHas('service_providers')->get() as $item)
+                    <a href="{{ route('login') }}"
+                        class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
+                        <div class="flex flex-col">
+                            <img src="{{ Storage::url($item->banner_path) }}"
+                                class="h-56 object-cover rounded-xl m-2" alt="">
+                            <div class="p-3">
+                                <p class="font-semibold text-main mt-5 text-lg text-center">{{ $item->name }}</p>
 
-                            <div class="price mt-5">
-                                <div class="flex space-x-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="h-6 w-6 fill-main">
-                                        <path
-                                            d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                        </path>
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Avg. Project:
-                                        &#8369;20k-30k</span>
+                                <div class="price mt-5">
+                                    <div class="flex space-x-2 justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            class="h-6 w-6 fill-main">
+                                            <path
+                                                d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-gray-600 font-medium">Avg. Project:
+                                            &#8369;{{ $item->avg_project }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-                <a href="" class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                    <div class="flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581578949510-fa7315c4c350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsZWFuaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                            class="h-56 object-cover rounded-xl m-2" alt="">
-                        <div class="p-3">
-                            <p class="font-semibold text-main mt-5 text-lg text-center">Furniture
-                                Assembly</p>
+                    </a>
+                @empty
+                    <span class="text-xl mt-10 italic">
+                        No Services Available...
+                    </span>
+                @endforelse
 
-                            <div class="price mt-5">
-                                <div class="flex space-x-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="h-6 w-6 fill-main">
-                                        <path
-                                            d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                        </path>
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Avg. Project:
-                                        &#8369;20k-30k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="" class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                    <div class="flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581578949510-fa7315c4c350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsZWFuaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                            class="h-56 object-cover rounded-xl m-2" alt="">
-                        <div class="p-3">
-                            <p class="font-semibold text-main mt-5 text-lg text-center">Furniture
-                                Assembly</p>
-
-                            <div class="price mt-5">
-                                <div class="flex space-x-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="h-6 w-6 fill-main">
-                                        <path
-                                            d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                        </path>
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Avg. Project:
-                                        &#8369;20k-30k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a> <a href=""
-                    class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                    <div class="flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581578949510-fa7315c4c350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsZWFuaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                            class="h-56 object-cover rounded-xl m-2" alt="">
-                        <div class="p-3">
-                            <p class="font-semibold text-main mt-5 text-lg text-center">Furniture
-                                Assembly</p>
-
-                            <div class="price mt-5">
-                                <div class="flex space-x-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="h-6 w-6 fill-main">
-                                        <path
-                                            d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                        </path>
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Avg. Project:
-                                        &#8369;20k-30k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="" class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                    <div class="flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581578949510-fa7315c4c350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsZWFuaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
-                            class="h-56 object-cover rounded-xl m-2" alt="">
-                        <div class="p-3">
-                            <p class="font-semibold text-main mt-5 text-lg text-center">Furniture
-                                Assembly</p>
-
-                            <div class="price mt-5">
-                                <div class="flex space-x-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="h-6 w-6 fill-main">
-                                        <path
-                                            d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                        </path>
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Avg. Project:
-                                        &#8369;20k-30k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
             </div>
         </section>
 
@@ -360,13 +331,13 @@
                             <div class="items-center gap-12 text-left lg:gap-24 lg:inline-flex">
                                 <div class="order-first block w-full mt-12 aspect-square lg:mt-0">
                                     <img class="object-cover object-center w-full mx-auto bg-gray-300 border lg:ml-auto"
-                                        alt="hero" src="../images/placeholders/square4.svg">
+                                        alt="hero" src="{{ asset('images/everyday.png') }}">
                                 </div>
                                 <div class="flex flex-col mt-6 lg:mt-0">
                                     <div class="max-w-xl">
                                         <div>
                                             <p class="text-2xl font-medium tracking-tight text-black sm:text-4xl">
-                                                I am a short heading
+                                                Day-to-day living made simpler
                                             </p>
                                         </div>
                                     </div>
@@ -374,51 +345,49 @@
                                         <ul role="list"
                                             class="grid grid-cols-2 gap-4 list-none lg:grid-cols-1 lg:gap-3">
                                             <li>
-                                                <div>
-                                                    <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                        Developer experience
-                                                    </p>
-                                                </div>
-                                                <div class="mt-2 text-base text-gray-500">
-                                                    Plus, our platform is constantly evolving to meet the
-                                                    changing needs of the tech industry, ensuring you'll always
-                                                    be ahead.
+
+                                                <div class="mt-2 text-bold text-gray-900">
+                                                    You don't have to handle life's busiest times alone. Reclaim your
+                                                    free time for your passions without breaking the bank.
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="flex space-x-2 items-start">
                                                 <div>
-                                                    <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                        Designers go-to app
-                                                    </p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        class="h-6 w-6 fill-green-600">
+                                                        <path
+                                                            d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                        </path>
+                                                    </svg>
                                                 </div>
-                                                <div class="mt-2 text-base text-gray-500">
-                                                    Plus, our platform is constantly evolving to meet the
-                                                    changing needs of the tech industry, ensuring you'll always
-                                                    be ahead.
+                                                <div class=" text-base text-gray-700">
+                                                    Choose your Service Provider by reviews, skills, and price
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="flex space-x-2 items-start">
                                                 <div>
-                                                    <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                        Easy onboarding
-                                                    </p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        class="h-6 w-6 fill-green-600">
+                                                        <path
+                                                            d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                        </path>
+                                                    </svg>
                                                 </div>
-                                                <div class="mt-2 text-base text-gray-500">
-                                                    Plus, our platform is constantly evolving to meet the
-                                                    changing needs of the tech industry, ensuring you'll always
-                                                    be ahead.
+                                                <div class=" text-base text-gray-700">
+                                                    Set a time slot that works for you, starting right now
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="flex space-x-2 items-start">
                                                 <div>
-                                                    <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                        Customer support
-                                                    </p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        class="h-6 w-6 fill-green-600">
+                                                        <path
+                                                            d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                        </path>
+                                                    </svg>
                                                 </div>
-                                                <div class="mt-2 text-base text-gray-500">
-                                                    Plus, our platform is constantly evolving to meet the
-                                                    changing needs of the tech industry, ensuring you'll always
-                                                    be ahead.
+                                                <div class=" text-base text-gray-700">
+                                                    Message, call, pay, tip, and review all through one platform
                                                 </div>
                                             </li>
                                         </ul>
@@ -434,102 +403,39 @@
         <section class="bg-white">
             <div class="px-8 py-24 mx-auto max-w-7xl lg:px-16 md:px-12 xl:px-36">
                 <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
-                    <div class="p-8 bg-gray-100 rounded-3xl group lg:items-start sm:flex">
-                        <div>
-                            <p class="text-sm text-gray-600">
-                                “Snowflake is a cloud data platform that enables data storage,
-                                processing, and analytics solutions for businesses. With the Data
-                                Cloud platform, Snowflake manages the complexities of data storage
-                                infrastructure, enabling organizations to focus. ”
-                            </p>
-                            <div class="inline-flex items-center w-full h-full mt-2">
-                                <div class="mt-6">
-                                    <div class="flex-shrink-0 block">
-                                        <div class="flex items-center">
-                                            <div>
-                                                <img alt=""
-                                                    class="inline-block object-cover rounded-full h-9 w-9"
-                                                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80">
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-black group-hover:text-blue-600">
-                                                    Sam Samuel
-                                                </p>
-                                                <p
-                                                    class="mt-2 text-xs font-medium text-blue-500 group-hover:text-black">
-                                                    CEO
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-8 bg-gray-100 rounded-3xl group lg:items-start sm:flex">
-                        <div>
-                            <p class="text-sm text-gray-600">
-                                “Snowflake is a cloud data platform that enables data storage,
-                                processing, and analytics solutions for businesses. With the Data
-                                Cloud platform, Snowflake manages the complexities of data storage
-                                infrastructure, enabling organizations to focus. ”
-                            </p>
-                            <div class="inline-flex items-center w-full h-full mt-2">
-                                <div class="mt-6">
-                                    <div class="flex-shrink-0 block">
-                                        <div class="flex items-center">
-                                            <div>
-                                                <img alt=""
-                                                    class="inline-block object-cover rounded-full h-9 w-9"
-                                                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80">
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-black group-hover:text-blue-600">
-                                                    Sam Samuel
-                                                </p>
-                                                <p
-                                                    class="mt-2 text-xs font-medium text-blue-500 group-hover:text-black">
-                                                    CEO
-                                                </p>
+                    @foreach (\App\Models\Feedback::all() as $item)
+                        <div class="p-8 bg-gray-100 rounded-3xl group lg:items-start sm:flex">
+                            <div>
+                                <p class="text-sm text-gray-600">
+                                    {{ $item->feedback }}
+                                </p>
+                                <div class="inline-flex items-center w-full h-full mt-2">
+                                    <div class="mt-6">
+                                        <div class="flex-shrink-0 block">
+                                            <div class="flex items-center">
+                                                <div>
+                                                    <img alt=""
+                                                        class="inline-block object-cover rounded-full h-9 w-9"
+                                                        src="{{ asset('images/alisto-logo.png') }}">
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p
+                                                        class="text-sm font-medium text-black group-hover:text-blue-600">
+                                                        {{ \App\Models\User::where('id', $item->user_id)->first()->name }}
+                                                    </p>
+                                                    <p
+                                                        class=" text-xs font-medium text-blue-500 group-hover:text-black">
+                                                        {{ \App\Models\ServiceProvider::where('id', $item->service_provider_id)->first()->user->name }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="p-8 bg-gray-100 rounded-3xl group lg:items-start sm:flex">
-                        <div>
-                            <p class="text-sm text-gray-600">
-                                “Snowflake is a cloud data platform that enables data storage,
-                                processing, and analytics solutions for businesses. With the Data
-                                Cloud platform, Snowflake manages the complexities of data storage
-                                infrastructure, enabling organizations to focus. ”
-                            </p>
-                            <div class="inline-flex items-center w-full h-full mt-2">
-                                <div class="mt-6">
-                                    <div class="flex-shrink-0 block">
-                                        <div class="flex items-center">
-                                            <div>
-                                                <img alt=""
-                                                    class="inline-block object-cover rounded-full h-9 w-9"
-                                                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80">
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-black group-hover:text-blue-600">
-                                                    Sam Samuel
-                                                </p>
-                                                <p
-                                                    class="mt-2 text-xs font-medium text-blue-500 group-hover:text-black">
-                                                    CEO
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
 
                 </div>
         </section>
@@ -544,58 +450,57 @@
                                 <div class="max-w-xl">
                                     <div>
                                         <p class="text-2xl font-medium tracking-tight text-black sm:text-4xl">
-                                            I am a short heading
+                                            A go-to team service provider in just one click
                                         </p>
                                     </div>
                                 </div>
-                                <div class="mt-6 lg:max-w-7xl">
-                                    <ul role="list" class="grid grid-cols-2 gap-4 list-none lg:gap-6">
+                                <div class="mx-auto mt-6 lg:max-w-7xl">
+                                    <ul role="list"
+                                        class="grid grid-cols-2 gap-4 list-none lg:grid-cols-1 lg:gap-3">
                                         <li>
-                                            <div>
-                                                <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                    Developer experience
-                                                </p>
-                                            </div>
-                                            <div class="mt-2 text-base text-gray-500">
-                                                Plus, our platform is constantly evolving to meet the
-                                                changing needs of the tech industry, ensuring you'll always
-                                                be ahead.
+
+                                            <div class="mt-2 text-bold text-gray-900">
+                                                Build your team, background-checked Service Providers to help with — and
+                                                for — life. Whatever you need, they’ve got it covered.
                                             </div>
                                         </li>
-                                        <li>
+                                        <li class="flex space-x-2 items-start">
                                             <div>
-                                                <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                    Designers go-to app
-                                                </p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    class="h-6 w-6 fill-green-600">
+                                                    <path
+                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                    </path>
+                                                </svg>
                                             </div>
-                                            <div class="mt-2 text-base text-gray-500">
-                                                Plus, our platform is constantly evolving to meet the
-                                                changing needs of the tech industry, ensuring you'll always
-                                                be ahead.
+                                            <div class=" text-base text-gray-700">
+                                                Choose your Service Provider by reviews, skills, and price
                                             </div>
                                         </li>
-                                        <li>
+                                        <li class="flex space-x-2 items-start">
                                             <div>
-                                                <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                    Easy onboarding
-                                                </p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    class="h-6 w-6 fill-green-600">
+                                                    <path
+                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                    </path>
+                                                </svg>
                                             </div>
-                                            <div class="mt-2 text-base text-gray-500">
-                                                Plus, our platform is constantly evolving to meet the
-                                                changing needs of the tech industry, ensuring you'll always
-                                                be ahead.
+                                            <div class=" text-base text-gray-700">
+                                                Choose and connect with the best service provider for the job
                                             </div>
                                         </li>
-                                        <li>
+                                        <li class="flex space-x-2 items-start">
                                             <div>
-                                                <p class="mt-5 text-lg font-medium leading-6 text-black">
-                                                    Customer support
-                                                </p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    class="h-6 w-6 fill-green-600">
+                                                    <path
+                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                    </path>
+                                                </svg>
                                             </div>
-                                            <div class="mt-2 text-base text-gray-500">
-                                                Plus, our platform is constantly evolving to meet the
-                                                changing needs of the tech industry, ensuring you'll always
-                                                be ahead.
+                                            <div class=" text-base text-gray-700">
+                                                Save your favorites to book again and again
                                             </div>
                                         </li>
                                     </ul>
@@ -603,7 +508,7 @@
                             </div>
                             <div class="order-first block w-full mt-12 aspect-square lg:mt-0">
                                 <img class="object-cover object-center w-full mx-auto bg-gray-300 border lg:ml-auto"
-                                    alt="hero" src="../images/placeholders/square3.svg">
+                                    alt="hero" src="{{ asset('images/goateam.png') }}">
                             </div>
                         </div>
                     </div>
@@ -613,218 +518,28 @@
         <section>
             <h1 class="text-center text-2xl font-bold text-main ">READY TO GET STARTED?</h1>
             <div class="relative items-center w-full px-5 py-10 mx-auto md:px-12 lg:px-16 max-w-7xl">
-                <div class="w-full grid grid-cols-2 gap-4 divide-x-2">
-                    <div>
+                <div class="w-full grid 2xl:grid-cols-2 grid-cols-1 gap-4 divide-x-2">
+                    <div class="flex flex-col space-y-3 items-center">
                         <center>
-                            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" class="h-96"
-                                viewBox="0 0 744.84799 747.07702" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <path id="fa3b9e12-7275-481e-bee9-64fd9595a50d-155" data-name="Path 1"
-                                    d="M299.205,705.80851l-6.56-25.872a335.96693,335.96693,0,0,0-35.643-12.788l-.828,12.024-3.358-13.247c-15.021-4.29394-25.24-6.183-25.24-6.183s13.8,52.489,42.754,92.617l33.734,5.926-26.207,3.779a135.92592,135.92592,0,0,0,11.719,12.422c42.115,39.092,89.024,57.028,104.773,40.06s-5.625-62.412-47.74-101.5c-13.056-12.119-29.457-21.844-45.875-29.5Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#f2f2f2" />
-                                <path id="bde08021-c30f-4979-a9d8-cb90b72b5ca2-156" data-name="Path 2"
-                                    d="M361.591,677.70647l7.758-25.538a335.93951,335.93951,0,0,0-23.9-29.371l-6.924,9.865,3.972-13.076c-10.641-11.436-18.412-18.335-18.412-18.335s-15.315,52.067-11.275,101.384l25.815,22.51-24.392-10.312a135.91879,135.91879,0,0,0,3.614,16.694c15.846,55.234,46.731,94.835,68.983,88.451s27.446-56.335,11.6-111.569c-4.912-17.123-13.926-33.926-24.023-48.965Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#f2f2f2" />
-                                <path id="b3ac2088-de9b-4f7f-bc99-0ed9705c1a9d-157" data-name="Path 22"
-                                    d="M747.327,253.4445h-4.092v-112.1a64.883,64.883,0,0,0-64.883-64.883H440.845a64.883,64.883,0,0,0-64.883,64.883v615a64.883,64.883,0,0,0,64.883,64.883H678.352a64.883,64.883,0,0,0,64.882-64.883v-423.105h4.092Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#e6e6e6" />
-                                <path id="b2715b96-3117-487c-acc0-20904544b5b7-158" data-name="Path 23"
-                                    d="M680.97,93.3355h-31a23.02,23.02,0,0,1-21.316,31.714H492.589a23.02,23.02,0,0,1-21.314-31.714H442.319a48.454,48.454,0,0,0-48.454,48.454v614.107a48.454,48.454,0,0,0,48.454,48.454H680.97a48.454,48.454,0,0,0,48.454-48.454h0V141.7885a48.454,48.454,0,0,0-48.454-48.453Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#fff" />
-                                <path id="b06d66ec-6c84-45dd-8c27-1263a6253192-159" data-name="Path 6"
-                                    d="M531.234,337.96451a24.437,24.437,0,0,1,12.23-21.174,24.45,24.45,0,1,0,0,42.345A24.43391,24.43391,0,0,1,531.234,337.96451Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#ccc" />
-                                <path id="e73810fe-4cf4-40cc-8c7c-ca544ce30bd4-160" data-name="Path 7"
-                                    d="M561.971,337.96451a24.43594,24.43594,0,0,1,12.23-21.174,24.45,24.45,0,1,0,0,42.345A24.43391,24.43391,0,0,1,561.971,337.96451Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#ccc" />
-                                <circle id="a4813fcf-056e-4514-bb8b-e6506f49341f" data-name="Ellipse 1"
-                                    cx="364.43401" cy="261.50202" r="24.45" fill="#1b7b8b" />
-                                <path id="bbe451c3-febc-41ba-8083-4c8307a2e73e-161" data-name="Path 8"
-                                    d="M632.872,414.3305h-142.5a5.123,5.123,0,0,1-5.117-5.117v-142.5a5.123,5.123,0,0,1,5.117-5.117h142.5a5.123,5.123,0,0,1,5.117,5.117v142.5A5.123,5.123,0,0,1,632.872,414.3305Zm-142.5-150.686a3.073,3.073,0,0,0-3.07,3.07v142.5a3.073,3.073,0,0,0,3.07,3.07h142.5a3.073,3.073,0,0,0,3.07-3.07v-142.5a3.073,3.073,0,0,0-3.07-3.07Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#ccc" />
-                                <rect id="bb28937d-932f-4fdf-befe-f406e51091fe" data-name="Rectangle 1"
-                                    x="218.56201" y="447.10197" width="218.552" height="2.047" fill="#ccc" />
-                                <circle id="fcef55fc-4968-45b2-93bb-1a1080c85fc7" data-name="Ellipse 2"
-                                    cx="225.46401" cy="427.41999" r="6.902" fill="#1b7b8b" />
-                                <rect id="ff33d889-4c74-4b91-85ef-b4882cc8fe76" data-name="Rectangle 2"
-                                    x="218.56201" y="516.11803" width="218.552" height="2.047" fill="#ccc" />
-                                <circle id="e8fa0310-b872-4adf-aedd-0c6eda09f3b8" data-name="Ellipse 3"
-                                    cx="225.46401" cy="496.43702" r="6.902" fill="#1b7b8b" />
-                                <path
-                                    d="M660.69043,671.17188H591.62207a4.50493,4.50493,0,0,1-4.5-4.5v-24.208a4.50492,4.50492,0,0,1,4.5-4.5h69.06836a4.50491,4.50491,0,0,1,4.5,4.5v24.208A4.50492,4.50492,0,0,1,660.69043,671.17188Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#1b7b8b" />
-                                <circle id="e12ee00d-aa4a-4413-a013-11d20b7f97f7" data-name="Ellipse 7"
-                                    cx="247.97799" cy="427.41999" r="6.902" fill="#1b7b8b" />
-                                <circle id="f58f497e-6949-45c8-be5f-eee2aa0f6586" data-name="Ellipse 8"
-                                    cx="270.492" cy="427.41999" r="6.902" fill="#1b7b8b" />
-                                <circle id="b4d4939a-c6e6-4f4d-ba6c-e8b05485017d" data-name="Ellipse 9"
-                                    cx="247.97799" cy="496.43702" r="6.902" fill="#1b7b8b" />
-                                <circle id="aff120b1-519b-4e96-ac87-836aa55663de" data-name="Ellipse 10"
-                                    cx="270.492" cy="496.43702" r="6.902" fill="#1b7b8b" />
-                                <path id="f1094013-1297-477a-ac57-08eac07c4bd5-162" data-name="Path 88"
-                                    d="M969.642,823.53851H251.656c-1.537,0-2.782-.546-2.782-1.218s1.245-1.219,2.782-1.219H969.642c1.536,0,2.782.546,2.782,1.219S971.178,823.53851,969.642,823.53851Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#3f3d56" />
-                                <path
-                                    d="M792.25256,565.92292a10.09371,10.09371,0,0,1,1.41075.78731l44.8523-19.14319,1.60093-11.81526,17.92157-.10956-1.05873,27.0982-59.19987,15.65584a10.60791,10.60791,0,0,1-.44749,1.20835,10.2346,10.2346,0,1,1-5.07946-13.68169Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#ffb8b8" />
-                                <polygon
-                                    points="636.98 735.021 624.72 735.021 618.888 687.733 636.982 687.734 636.98 735.021"
-                                    fill="#ffb8b8" />
-                                <path
-                                    d="M615.96281,731.51778h23.64387a0,0,0,0,1,0,0v14.88687a0,0,0,0,1,0,0H601.076a0,0,0,0,1,0,0v0A14.88686,14.88686,0,0,1,615.96281,731.51778Z"
-                                    fill="#2f2e41" />
-                                <polygon
-                                    points="684.66 731.557 672.459 732.759 662.018 686.271 680.025 684.497 684.66 731.557"
-                                    fill="#ffb8b8" />
-                                <path
-                                    d="M891.68576,806.12757h23.64387a0,0,0,0,1,0,0v14.88687a0,0,0,0,1,0,0H876.7989a0,0,0,0,1,0,0v0A14.88686,14.88686,0,0,1,891.68576,806.12757Z"
-                                    transform="translate(-303.00873 15.2906) rotate(-5.62529)" fill="#2f2e41" />
-                                <circle cx="640.3925" cy="384.57375" r="24.56103" fill="#ffb8b8" />
-                                <path
-                                    d="M849.55636,801.91945a4.47086,4.47086,0,0,1-4.415-3.69726c-6.34571-35.22559-27.08789-150.40528-27.584-153.59571a1.42684,1.42684,0,0,1-.01562-.22168v-8.58789a1.489,1.489,0,0,1,.27929-.87207l2.74024-3.83789a1.47845,1.47845,0,0,1,1.14355-.625c15.62207-.73242,66.78418-2.8789,69.25586.209h0c2.48242,3.10351,1.60547,12.50683,1.4043,14.36035l.00977.19336,22.98535,146.99512a4.51238,4.51238,0,0,1-3.71485,5.13476l-14.35644,2.36524a4.52127,4.52127,0,0,1-5.02539-3.09278c-4.44043-14.18847-19.3291-61.918-24.48926-80.38672a.49922.49922,0,0,0-.98047.13868c.25781,17.60546.88086,62.52343,1.0957,78.0371l.02344,1.6709a4.51811,4.51811,0,0,1-4.09277,4.53614l-13.84375,1.25781C849.83565,801.91359,849.695,801.91945,849.55636,801.91945Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#2f2e41" />
-                                <path id="ae7af94f-88d7-4204-9f07-e3651de85c05-163" data-name="Path 99"
-                                    d="M852.38089,495.2538c-4.28634,2.548-6.85116,7.23043-8.32276,11.9951a113.681,113.681,0,0,0-4.88444,27.15943l-1.55553,27.60021-19.25508,73.1699c16.68871,14.1207,26.31542,10.91153,48.78049-.63879s25.03222,3.85117,25.03222,3.85117l4.49236-62.25839,6.41837-68.03232a30.16418,30.16418,0,0,0-4.86143-4.67415,49.65848,49.65848,0,0,0-42.44229-8.99538Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#1b7b8b" />
-                                <path
-                                    d="M846.12661,580.70047a10.52561,10.52561,0,0,1,1.50061.70389l44.34832-22.1972.736-12.02551,18.2938-1.26127.98041,27.4126L852.7199,592.93235a10.4958,10.4958,0,1,1-6.59329-12.23188Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#ffb8b8" />
-                                <path id="a6768b0e-63d0-4b31-8462-9b2e0b00f0fd-164" data-name="Path 101"
-                                    d="M902.76552,508.41151c10.91151,3.85117,12.83354,45.57369,12.83354,45.57369-12.8367-7.06036-28.24139,4.49318-28.24139,4.49318s-3.20916-10.91154-7.06034-25.03223a24.52987,24.52987,0,0,1,5.13436-23.10625S891.854,504.558,902.76552,508.41151Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#1b7b8b" />
-                                <path id="bfd7963f-0cf8-4885-9d3a-2c00bccda2e3-165" data-name="Path 102"
-                                    d="M889.99122,467.53052c-3.06-2.44837-7.23517,2.00173-7.23517,2.00173l-2.4484-22.03349s-15.30095,1.8329-25.0935-.61161-11.32255,8.87513-11.32255,8.87513a78.57978,78.57978,0,0,1-.30582-13.77092c.61158-5.50838,8.56838-11.01675,22.6451-14.68932S887.6518,439.543,887.6518,439.543C897.44542,444.43877,893.05121,469.97891,889.99122,467.53052Z"
-                                    transform="translate(-227.576 -76.46149)" fill="#2f2e41" />
-                            </svg>
+                            <img src="{{ asset('images/signup.png') }}" class="h-96" alt="">
                             <p class="text-lg">Hear that? The sweet sigh of relief. Start getting more done.</p>
-                            <button class="mt-5 bg-main p-2 px-10 font-bold text-white text-xl rounded-full ">
-                                <span>SIGN UP</span>
-                            </button>
+
                         </center>
+                        <a href="{{ route('register') }}"
+                            class="mt-5 bg-main p-2 px-10 font-bold text-white text-xl rounded-full ">
+                            <span>SIGN UP</span>
+                        </a>
                     </div>
-                    <div>
+                    <div class="flex flex-col space-y-3 items-center">
                         <center>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="472.90589" class="h-96"
-                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <path
-                                    d="M402.92675,341.53699c2.06592,.12936,3.20769-2.43738,1.64468-3.93332l-.1555-.61819c.02048-.0495,.04105-.09897,.06178-.14838,2.08923-4.98181,9.16992-4.94742,11.24139,.04178,1.83859,4.42816,4.17942,8.86389,4.75579,13.54593,.25838,2.0668,.14213,4.17236-.31648,6.20047,4.30807-9.41058,6.57515-19.68661,6.57515-30.02078,0-2.59653-.14213-5.19302-.43275-7.78296-.239-2.11853-.56839-4.22409-.99471-6.31033-2.30575-11.27719-7.29852-22.01825-14.50012-30.98962-3.46197-1.89249-6.34907-4.85065-8.09295-8.39651-.6265-1.2789-1.11739-2.65463-1.34991-4.05618,.39398,.05167,1.48557-5.94867,1.18842-6.3168,.54906-.83316,1.53178-1.24734,2.13144-2.06033,2.98232-4.0434,7.0912-3.3374,9.23621,2.15726,4.58224,2.31265,4.62659,6.14807,1.81495,9.83682-1.78878,2.34683-2.03456,5.52234-3.60408,8.03479,.16151,.2067,.32944,.40695,.4909,.61365,2.96106,3.79788,5.52208,7.88,7.68104,12.16858-.61017-4.7662,.29067-10.50821,1.82641-14.20959,1.74819-4.21732,5.02491-7.76917,7.91045-11.41501,3.46601-4.37924,10.57337-2.46805,11.18401,3.08331,.00591,.05374,.01166,.10745,.01731,.16119-.4286,.24179-.84849,.49866-1.25864,.76993-2.33949,1.54724-1.53096,5.17386,1.24107,5.60175l.06277,.00967c-.15503,1.54367-.41984,3.07443-.80734,4.57938,3.70179,14.3158-4.29011,19.52991-15.70147,19.76413-.25191,.12915-.49738,.25833-.74929,.3811,1.15617,3.25525,2.07982,6.59448,2.76441,9.97891,.61359,2.99042,1.03991,6.01318,1.27885,9.04889,.29715,3.83005,.27129,7.6796-.05168,11.50323l.01939-.13562c.82024-4.21115,3.10671-8.14462,6.4266-10.87027,4.94561-4.06265,11.93282-5.55869,17.26826-8.82425,2.56833-1.57196,5.85945,.45944,5.41121,3.43707l-.02182,.14261c-.79443,.32288-1.56947,.69754-2.31871,1.11734-.4286,.24185-.84848,.49866-1.25864,.76993-2.33949,1.5473-1.53096,5.17392,1.24107,5.60181l.06282,.00964c.0452,.00647,.08397,.01294,.12911,.01944-1.36282,3.23581-3.26168,6.23923-5.63854,8.82922-2.31463,12.49713-12.25603,13.68283-22.89022,10.04355h-.00648c-1.16259,5.06378-2.86128,10.01126-5.0444,14.72623h-18.0202c-.06464-.2002-.12274-.40692-.18089-.60718,1.6664,.10339,3.3457,.00647,4.9863-.297-1.33701-1.64059-2.67397-3.2941-4.01097-4.93463-.03229-.03229-.05817-.06461-.08397-.09689-.67818-.8396-1.36282-1.67282-2.04099-2.51245l-.00037-.00101c-.04245-2.57755,.26653-5.14661,.87875-7.63983l.00056-.00034,.00003-.00012Z"
-                                    fill="#f2f2f2" />
-                                <path
-                                    d="M155.23584,357.57205c0,.66003,.53003,1.19,1.19006,1.19H471.71589c.65997,0,1.19-.52997,1.19-1.19,0-.65997-.53003-1.19-1.19-1.19H156.42591c-.66003,0-1.19006,.53003-1.19006,1.19Z"
-                                    fill="#ccc" />
-                                <path
-                                    d="M273.67999,271.58181l-4.87,3.90997-1.56,1.26001c-.14001-.19-.29999-.39001-.46002-.57001-1.52997-1.72998-3.72998-2.71997-6.02997-2.71997h-39.08002c-.13-.66003-.15997-1.33002-.09998-2,.16998-1.94,1.09998-3.81,2.73999-5.12l27.45001-22.05005c3.17999-2.56,7.83997-2.04999,10.39996,1.14001l12.65002,15.75c2.56,3.19,2.04999,7.84003-1.14001,10.40002Z"
-                                    fill="#e6e6e6" />
-                                <path
-                                    d="M265.5,273.46182h-48.26001c-1.26001,0-2.48999,.29999-3.58997,.85999l-.27002-.21002c-.47998-.37-.91003-.78998-1.26001-1.23999-2.08997-2.59998-2.21997-6.37-.09998-9.13l12.31-16.01996c2.48999-3.24005,7.13995-3.85004,10.38-1.36005l27.90997,21.45001c1.26001,.96002,2.10999,2.25,2.54999,3.65002,.20001,.64996,.32001,1.32001,.33002,2Z"
-                                    fill="#1b7b8b" />
-                                <g>
-                                    <path
-                                        d="M304.97998,25.46182H19.02002C8.53003,25.46182,0,33.99179,0,44.48178V339.4418c0,10.48999,8.53003,19.02002,19.02002,19.02002H304.97998c10.48999,0,19.02002-8.53003,19.02002-19.02002V44.48178c0-10.48999-8.53003-19.01996-19.02002-19.01996Zm17.02002,313.97998c0,9.39001-7.63,17.02002-17.02002,17.02002H19.02002c-9.39001,0-17.02002-7.63-17.02002-17.02002V44.48178c0-9.38995,7.63-17.01996,17.02002-17.01996H304.97998c9.39001,0,17.02002,7.63,17.02002,17.01996V339.4418Z"
-                                        fill="#3f3d56" />
-                                    <g>
-                                        <path
-                                            d="M129.03003,44.81179h-28.06006c-1.40997,0-2.56,1.15002-2.56,2.56,0,1.41998,1.15002,2.57001,2.56,2.57001h28.06006c1.40997,0,2.56-1.15002,2.56-2.57001,0-1.40997-1.15002-2.56-2.56-2.56Z"
-                                            fill="#e6e6e6" />
-                                        <path
-                                            d="M176.03003,44.81179h-28.06006c-1.40997,0-2.56,1.15002-2.56,2.56,0,1.41998,1.15002,2.57001,2.56,2.57001h28.06006c1.40997,0,2.56-1.15002,2.56-2.57001,0-1.40997-1.15002-2.56-2.56-2.56Z"
-                                            fill="#e6e6e6" />
-                                        <path
-                                            d="M223.03003,44.81179h-28.06006c-1.40997,0-2.56,1.15002-2.56,2.56,0,1.41998,1.15002,2.57001,2.56,2.57001h28.06006c1.40997,0,2.56-1.15002,2.56-2.57001,0-1.40997-1.15002-2.56-2.56-2.56Z"
-                                            fill="#e6e6e6" />
-                                    </g>
-                                    <path
-                                        d="M87.59998,95.96182H52.40002c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#f2f2f2" />
-                                    <path
-                                        d="M87.59998,148.96182H52.40002c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#e6e6e6" />
-                                    <path
-                                        d="M87.59998,201.96182H52.40002c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#e6e6e6" />
-                                    <path
-                                        d="M165.59998,95.96182h-35.19995c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#e6e6e6" />
-                                    <path
-                                        d="M165.59998,148.96182h-35.19995c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#f2f2f2" />
-                                    <path
-                                        d="M243.59998,148.96182h-35.19995c-4.36005,0-7.90002,3.53998-7.90002,7.89996v20.20001c0,4.35999,3.53998,7.90002,7.90002,7.90002h35.19995c4.36005,0,7.90002-3.54004,7.90002-7.90002v-20.20001c0-4.35999-3.53998-7.89996-7.90002-7.89996Z"
-                                        fill="#e6e6e6" />
-                                    <path
-                                        d="M269.31,299.96182H54.69c-8.92999,0-16.19,7.26001-16.19,16.19v14.62c0,8.92999,7.26001,16.19,16.19,16.19h214.62c8.92999,0,16.19-7.26001,16.19-16.19v-14.62c0-8.92999-7.26001-16.19-16.19-16.19Z"
-                                        fill="#f2f2f2" />
-                                </g>
-                                <path
-                                    d="M276.81,271.49179c-.16998-.20996-.34003-.42999-.52002-.63-1.90997-2.15997-4.64996-3.39996-7.52997-3.39996-18.13251,2.69287-36.64648,2.64032-55.52002,0-1.82001,0-3.58002,.5-5.12,1.40997-.89001,.52002-1.71002,1.19-2.40997,1.98999-1.91003,2.15002-2.80005,5.03003-2.45001,7.89001l8.77002,70.89001c.62,5.02997,4.90997,8.82001,9.96997,8.82001h38c5.06,0,9.34998-3.79004,9.96997-8.82001l8.77002-70.89001c.32001-2.58997-.38-5.19-1.92999-7.26001Z"
-                                    fill="#fff" />
-                                <path
-                                    d="M276.81,271.49179c-.16998-.20996-.34003-.42999-.52002-.63-1.90997-2.15997-4.64996-3.39996-7.52997-3.39996-18.50665,1.98419-37.01337,1.98419-55.52002,0-1.82001,0-3.58002,.5-5.12,1.40997-.89001,.52002-1.71002,1.19-2.40997,1.98999-1.91003,2.15002-2.80005,5.03003-2.45001,7.89001l8.77002,70.89001c.22998,1.89001,.97998,3.59998,2.08997,5,1.84998,2.33002,4.69,3.81,7.84003,3.82001h38.03998c3.53003,0,6.69-1.85004,8.47998-4.67004,.78003-1.22998,1.30005-2.62994,1.48999-4.14996l8.77002-70.89001c.32001-2.58997-.38-5.19-1.92999-7.26001Zm-.06,7.01001l-8.76001,70.89001c0,.02002-.01001,.04999-.01001,.07001-.52997,4-3.94995,7-7.97998,7h-38c-4.03003,0-7.45001-3-7.97998-7,0-.02002-.01001-.04999-.01001-.07001l-8.76001-70.89001c-.28003-2.28998,.42999-4.58997,1.96002-6.32001,.69-.77997,1.51996-1.40997,2.44-1.85999,1.09998-.56,2.32996-.85999,3.58997-.85999,18.5069,3.60101,37.01361,3.60114,55.52002,0,2.29999,0,4.5,.98999,6.02997,2.71997,.16003,.17999,.32001,.38,.46002,.57001,1.21002,1.65002,1.75,3.71002,1.5,5.75Z"
-                                    fill="#3f3d56" />
-                                <path
-                                    d="M269,349.46182l-.52002,4.32996c-1.78998,2.82001-4.94995,4.67004-8.47998,4.67004h-38.03998c-3.15002-.01001-5.99005-1.48999-7.84003-3.82001l-.12-5.17999h55Z"
-                                    fill="#3f3d56" />
-                                <g>
-                                    <g>
-                                        <polygon
-                                            points="309.03116 117.28576 261.16666 150.17845 255.26594 143.79936 299.29665 106.90625 309.03116 117.28576"
-                                            fill="#a0616a" />
-                                        <ellipse cx="253.40981" cy="150.71903" rx="10.94042" ry="6.49587"
-                                            transform="translate(-38.54487 191.89211) rotate(-38.76989)"
-                                            fill="#a0616a" />
-                                    </g>
-                                    <g>
-                                        <polygon
-                                            points="333.60661 353.01047 324.51176 353.00957 320.18529 317.92904 333.60846 317.92996 333.60661 353.01047"
-                                            fill="#a0616a" />
-                                        <path
-                                            d="M302.44653,352.80414h0c-.28316,.47691-.4326,2.01623-.4326,2.57086h0c0,1.7048,1.38201,3.08681,3.0868,3.08681h28.16569c1.16302,0,2.10583-.94281,2.10583-2.10583v-1.17263s1.39335-3.52434-1.47531-7.8683c0,0-3.56532,3.4014-8.89282-1.92609l-1.57103-2.84602-11.37211,8.31695-6.30339,.77588c-1.37903,.16975-2.6017-.02635-3.31106,1.16837Z"
-                                            fill="#2f2e41" />
-                                    </g>
-                                    <g>
-                                        <polygon
-                                            points="364.34195 353.01047 355.2471 353.00957 350.92063 317.92904 364.3438 317.92996 364.34195 353.01047"
-                                            fill="#a0616a" />
-                                        <path
-                                            d="M333.18187,352.80414h0c-.28316,.47691-.4326,2.01623-.4326,2.57086h0c0,1.7048,1.38201,3.08681,3.0868,3.08681h28.16569c1.16302,0,2.10583-.94281,2.10583-2.10583v-1.17263s1.39335-3.52434-1.47531-7.8683c0,0-3.56532,3.4014-8.89282-1.92609l-1.57103-2.84602-11.37211,8.31695-6.30339,.77588c-1.37903,.16975-2.6017-.02635-3.31106,1.16837Z"
-                                            fill="#2f2e41" />
-                                    </g>
-                                    <path
-                                        d="M317.95282,157.48015l-10.41876,100.02009s7.29313,68.24287,8.85595,68.24287,3.12563,1.28799,1.56281,2.72775-3.64657,2.48163-1.56281,2.48163,2.33655-.63579,2.21015,1.50539-1.68921,3.70399-1.68921,3.70399l21.35846-1.56281-2.60469-69.80569,9.89782-55.74036s3.12563,116.16916,4.1675,117.21104,1.04188-1.56281,1.04188,1.04188-1.04188,3.64657-1.04188,3.64657l-.04922,5.20938h15.50508l22.05167-144.82075-3.64657-36.46566-65.63818,2.60469Z"
-                                        fill="#2f2e41" />
-                                    <path
-                                        d="M369.00474,49.64599h-18.75377l-11.25097,2.81583c-6.07632,3.60781-16.9692,14.34506-16.69473,21.4064l2.41975,62.25347s-8.28783,19.53282-6.72501,19.53282-6.03797,6.25361-6.03797,9.90017-2.60469,3.12563-1.04188,4.68844,76.31741,0,76.31741,0c0,0,.78141-1.56281,.78141-4.1675s1.55051-4.1552,1.55051-4.1552v-4.89148l-4.67614-17.00022,8.33501-76.05694-24.22362-14.32579Z"
-                                        fill="#1b7b8b" />
-                                    <path
-                                        d="M275.4043,125.62393l6.38574,11.05664c3.48682-2.11133,20.33105-12.23047,23.24463-12.46582,1.09717-.08887,1.34277-.29492,1.39209-.35645,.04834-.06055,.03418-.19629,.00488-.41309-.04541-.33594-.11377-.84375,.27979-1.27734,.57715-.63574,1.0835-.25293,1.32812-.06934,.37891,.28613,1.01465,.76465,3.06201,.47461,.52393-.07422,.85352-.1377,1.06055-.1875l-.02295-.02148c-.44629-.4209-1.19385-1.125-1.24805-2.25586-.04883-1.0127-.06201-1.28418,.30713-1.45898,.34082-.15918,.60645,.08008,.76465,.22266,.26709,.24316,.70654,.64062,1.61133,.60645,2.31396-.75684,23.81982-31.80859,28.01855-44.17871,1.0459-3.08008,.9165-5.94043-.38379-8.5-2.49316-4.90771-8.59717-7.36621-10.10352-7.91016l-30.52979,42.84668-25.17139,23.8877Z"
-                                        fill="#1b7b8b" />
-                                    <circle cx="359.95881" cy="25.43649" r="20.20071" fill="#a0616a" />
-                                    <path
-                                        d="M384.3985,13.15946c-1.77515-3.80701-5.70966-6.76508-9.90466-6.54926,.25293-1.0567-.21552-2.18756-.96912-2.97021-.75366-.78259-1.75708-1.27234-2.76276-1.68359-4.97064-2.03259-10.56866-2.4989-15.80713-1.31671-.52578-.72812-8.0022,1.10956-7.10815,1.49969,.89398,.3902-2.37457,1.32208-2.52905,2.28528-.16919,1.0553-1.28729,1.70227-2.34338,1.86688-1.05609,.16467-2.14618,.00439-3.19611,.20447-2.11603,.40314,.25214,3.00464,.22186,5.15851-.03033,2.15393-2.45587,3.63-.35199,4.09253,2.17151,.47742-.83228,4.32245,1.35199,3.90747,4.94128-.93872,26.51929-2.94019,28.4397,1.70844,.5332,1.29077,.86731,2.7533,1.91522,3.67651,1.42639,1.25671,3.80267,1.1557,4.96948,2.65656,.94061,1.2099,.67114,2.98627-.02448,4.35181s-1.75366,2.52856-2.38385,3.92554c-.84491,1.87286-.84033,3.95905-.59912,6.03009,.18677-.09741,.47382-.19476,.90399-.29218l-.18555,.02338c5.39087-3.92682,9.35168-9.77448,10.99817-16.23749,1.03699-4.07056,1.14014-8.5307-.63507-12.33771Z"
-                                        fill="#2f2e41" />
-                                    <rect x="356" y="181.46182" width="50" height="35"
-                                        rx="7.39764" ry="7.39764" fill="#1b7b8b" />
-                                    <g>
-                                        <polygon
-                                            points="405.62114 124.97896 385.65054 179.5144 377.14571 177.7314 391.67407 122.15504 405.62114 124.97896"
-                                            fill="#a0616a" />
-                                        <ellipse cx="379.64005" cy="184.44745" rx="10.94042" ry="6.49587"
-                                            transform="translate(98.5753 499.32843) rotate(-74.16042)"
-                                            fill="#a0616a" />
-                                    </g>
-                                    <path
-                                        d="M373,52.46182s21.79117,3.6959,27.00055,15.67747,10.41876,50.53098,8.85595,52.0938-3.12563,0-1.56281,1.56281,4.21039-.49633,1.84472,2.35653-3.40754,1.29004-3.40754,2.33192,2.08375,.75885,0,2.98411-8.85595,25.14654-8.85595,25.14654l-13.02345-4.1675,2.60469-34.90284-13.45616-63.08282Z"
-                                        fill="#1b7b8b" />
-                                </g>
-                                <rect x="226" y="152.46182" width="50" height="35" rx="7.39764"
-                                    ry="7.39764" fill="#3f3d56" />
-                                <rect x="239.90495" y="246.00657" width="2.00016" height="71.81576"
-                                    transform="translate(-44.02375 519.24667) rotate(-89.27774)" fill="#3f3d56" />
-                            </svg>
+                            <img src="{{ asset('images/becomeaservice.png') }}" alt="">
                             <p class="text-lg">Grow your own business while saving the day for busy neighbors.</p>
-                            <button class="mt-5 bg-main p-2 px-10 font-bold text-white text-xl rounded-full ">
-                                <span>BECOME A SERVICE PROVIDER</span>
-                            </button>
+
                         </center>
+                        <a href="{{ route('service-provider') }}"
+                            class="mt-5 bg-main p-2 px-10 font-bold text-white text-xl rounded-full ">
+                            <span>BECOME A SERVICE PROVIDER</span>
+                        </a>
 
                     </div>
 
@@ -834,151 +549,8 @@
         </section>
 
 
+        <x-shared.footer />
 
-        <footer class="bg-main relative" aria-labelledby="footer-heading">
-            <h2 id="footer-heading" class="sr-only">Footer</h2>
-            <div class="px-5 py-12 mx-auto max-w-7xl lg:py-16 md:px-12 lg:px-20">
-                <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-                    <div class="xl:col-span-1">
-                        <a href="/"
-                            class="text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform text-black tracking-relaxed lg:pr-8">
-                            <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
-                        </a>
-                        <p class="w-1/2 mt-2 text-sm text-gray-100">
-
-                        </p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-8 mt-12 xl:mt-0 xl:col-span-2">
-                        <div class="md:grid md:grid-cols-2 md:gap-8">
-                            <div>
-                                <h3 class="font-semibold leading-6 uppercase text-white">
-                                    Solutions
-                                </h3>
-                                <ul role="list" class="mt-4 space-y-3">
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Marketing
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Analytics
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Commerce
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Insights
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="mt-12 md:mt-0">
-                                <h3 class="font-semibold leading-6 uppercase text-white">
-                                    Support
-                                </h3>
-                                <ul role="list" class="mt-4 space-y-4">
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Pricing
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Alpine.js
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            Guides
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-sm text-gray-100 hover:text-blue-600">
-                                            API Status
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="hidden lg:justify-end md:grid md:grid-cols-1">
-                            <div class="w-full mt-12 md:mt-0">
-                                <div class="mt-8 lg:justify-end xl:mt-0">
-                                    <h3 class="font-semibold leading-6 uppercase text-white">
-                                        Subscribe to our newsletter
-                                    </h3>
-                                    <p class="mt-4 text-sm font-light text-gray-100 lg:ml-auto">
-                                        The latest news, articles, and resources, sent to your inbox
-                                        weekly.
-                                    </p>
-                                    <div class="inline-flex items-center gap-2 mt-12 list-none lg:ml-auto">
-                                        <form class="flex flex-col items-center justify-center max-w-sm mx-auto"
-                                            action="">
-                                            <div class="flex flex-col w-full gap-1 mt-3 sm:flex-row">
-                                                <input name="email" type="email"
-                                                    class="block w-full px-4 py-2 text-sm font-medium text-white placeholder-gray-400 bg-white border border-gray-300 rounded-full font-spline focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600/50 disabled:opacity-50"
-                                                    placeholder="Enter your email..." required=""><button
-                                                    type="button"
-                                                    class="items-center inline-flex  justify-center w-full px-6 py-2.5 text-center text-white duration-200 bg-black border-2 border-black rounded-full nline-flex hover:bg-transparent hover:border-black hover:text-black focus:outline-none lg:w-auto focus-visible:outline-black text-sm focus-visible:ring-black">
-                                                    <div style="position: relative"></div>
-                                                    Subscribe<!-- -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" aria-hidden="true"
-                                                        class="w-4 h-auto ml-2">
-                                                        <path fill-rule="evenodd"
-                                                            d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="px-5 py-6 mx-auto border-t max-w-7xl sm:px-6 md:flex md:items-center md:justify-between lg:px-20">
-                <div class="flex justify-center mb-8 space-x-6 md:order-last md:mb-0">
-                    <span class="inline-flex justify-center w-full gap-3 lg:ml-auto md:justify-start md:w-auto">
-                        <a class="w-6 h-6 transition fill-black hover:text-blue-500">
-                            <span class="sr-only"> github</span>
-                            <ion-icon class="w-5 h-5 md hydrated" name="logo-github" role="img"
-                                aria-label="logo github"></ion-icon>
-
-                        </a>
-                        <a class="w-6 h-6 transition fill-black hover:text-blue-500">
-                            <span class="sr-only"> twitter</span>
-                            <ion-icon class="w-5 h-5 md hydrated" name="logo-twitter" role="img"
-                                aria-label="logo twitter"></ion-icon>
-                        </a>
-                        <a class="w-6 h-6 transition fill-black hover:text-blue-500">
-                            <span class="sr-only">Instagram</span>
-                            <ion-icon class="w-5 h-5 md hydrated" name="logo-instagram" role="img"
-                                aria-label="logo instagram"></ion-icon>
-                        </a>
-                        <a class="w-6 h-6 transition fill-black hover:text-blue-500">
-                            <span class="sr-only">Linkedin</span>
-                            <ion-icon class="w-5 h-5 md hydrated" name="logo-linkedin" role="img"
-                                aria-label="logo linkedin"></ion-icon>
-                        </a>
-                    </span>
-                </div>
-                <div class="mt-8 md:mt-0 md:order-1">
-                    <span class="mt-2 text-sm font-light text-gray-100">
-                        Copyright © 2023
-                        <a href="#" class="mx-2 text-wickedblue hover:text-gray-500"
-                            rel="noopener noreferrer">@ALISTO</a>. Since 2023
-                    </span>
-                </div>
-            </div>
-        </footer>
 
     </div>
 

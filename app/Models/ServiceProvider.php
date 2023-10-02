@@ -15,4 +15,14 @@ class ServiceProvider extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function service_category()
+    {
+        return $this->belongsTo(ServiceCategory::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 }

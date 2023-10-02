@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="shortcut icon" href="{{ asset('images/alisto-logo.jpg') }}" />
+    <link rel="shortcut icon" href="{{ asset('images/alisto-logo.png') }}" />
 
 
     <!-- Fonts -->
@@ -34,7 +34,7 @@
                     <div class="relative max-w-6xl p-10 overflow-hidden bg-white bg-opacity-80 rounded-3xl lg:p-10">
                         <div class="relative max-w-lg">
                             <div>
-                                <img src="{{ asset('images/alisto-logo.jpg') }}" alt="">
+                                <img src="{{ asset('images/alisto-logo.png') }}" class="h-32" alt="">
                                 <div class="py-12 flex flex-col items-center space-y-4">
                                     <a href="{{ route('register') }}"
                                         class="rounded-full p-3 bg-main px-20 text-lg font-semibold text-white">

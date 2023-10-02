@@ -48,4 +48,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(ServiceProvider::class);
     }
+
+    public function client_information()
+    {
+        return $this->hasOne(ClientInformation::class);
+    }
+
+    public function client_appointments()
+    {
+        return $this->hasMany(ClientAppointment::class);
+    }
+
+    public function user_profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
 }

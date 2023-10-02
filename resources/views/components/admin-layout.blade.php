@@ -36,7 +36,7 @@
                     <div class="flex flex-col flex-shrink-0 px-4">
                         <a class="text-lg font-semibold tracking-tighter text-black focus:outline-none focus:ring "
                             href="/">
-                            <img src="{{ asset('images/alisto-logo1.png') }}" class="h-9" alt="">
+                            <img src="{{ asset('images/alisto-logo.png') }}" class="h-9" alt="">
                         </a>
                         <button class="hidden rounded-lg focus:outline-none focus:shadow-outline">
                             <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
@@ -53,8 +53,8 @@
                         <nav class="flex-1 px-2 bg-white">
                             <ul>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main group"
-                                        href="#">
+                                    <a class="{{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 in ease-in-out transfom scale-95' : '' }}  inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main"
+                                        href="{{ route('admin.dashboard') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="w-5 h-5 md hydrated">
                                             <path
@@ -67,8 +67,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main group"
-                                        href="#">
+                                    <a class="{{ request()->routeIs('admin.service-providers') ? 'bg-gray-200 in ease-in-out transfom scale-95' : '' }}  inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main"
+                                        href="{{ route('admin.service-providers') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="w-5 h-5 md hydrated">
                                             <path
@@ -81,8 +81,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main group"
-                                        href="#">
+                                    <a class="{{ request()->routeIs('admin.clients') ? 'bg-gray-200 in ease-in-out transfom scale-95' : '' }}  inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main"
+                                        href="{{ route('admin.clients') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="w-5 h-5 md hydrated">
                                             <path
@@ -102,8 +102,8 @@
                             </p>
                             <ul>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main"
-                                        href="#">
+                                    <a class="{{ request()->routeIs('admin.accounts') ? 'bg-gray-200 in ease-in-out transfom scale-95' : '' }}  inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-main fill-main transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main hover:fill-main"
+                                        href="{{ route('admin.accounts') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="w-5 h-5 md hydrated">
                                             <path
@@ -163,7 +163,7 @@
                                     class="flex flex-col items-start p-3 transition duration-150 ease-in-out bg-main bg-opacity-50 rounded-lg">
                                     <div>
                                         <img class="inline-block rounded-full h-9 object-cover w-9"
-                                            src="{{ asset('images/alisto-logo1.png') }}" alt="">
+                                            src="{{ asset('images/alisto-logo.png') }}" alt="">
                                     </div>
                                     <div>
                                         <p class="mt-2 text-base font-medium text-black">
