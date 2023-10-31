@@ -25,4 +25,14 @@ class ServiceProvider extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function client_appointments()
+    {
+        return $this->hasMany(ClientAppointment::class);
+    }
 }

@@ -26,4 +26,15 @@ class ClientNotification extends Component
         ]);
     }
 
+    public function readAll()
+    {
+        $data = Notification::where('receiver_id', auth()->user()->id)->get();
+
+        foreach ($data as $key => $value) {
+            $value->update([
+                'read_at' => now(),
+            ]);
+        }
+    }
+
 }

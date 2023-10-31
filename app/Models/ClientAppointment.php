@@ -19,4 +19,14 @@ class ClientAppointment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function service_provider()
+    {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
+    public function feedback()
+    {
+        return $this->hasOne(Feedback::class);
+    }
 }

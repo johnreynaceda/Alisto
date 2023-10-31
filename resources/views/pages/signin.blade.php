@@ -33,8 +33,10 @@
                 <div class="relative inline-flex items-center m-auto align-middle">
                     <div class="relative max-w-6xl p-10 overflow-hidden bg-white bg-opacity-80 rounded-3xl lg:p-10">
                         <div class="relative max-w-lg">
-                            <div>
-                                <img src="{{ asset('images/alisto-logo.png') }}" class="h-32" alt="">
+                            <div class="">
+                                <div class="grid place-content-center">
+                                    <img src="{{ asset('images/alisto-logo.png') }}" class="h-32" alt="">
+                                </div>
                                 <div class="py-12 flex flex-col items-center space-y-4">
                                     <a href="{{ route('register') }}"
                                         class="rounded-full p-3 bg-main px-20 text-lg font-semibold text-white">

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('location_id');
+            $table->string('phone_number');
             $table->foreignId('service_category_id');
             $table->string('image_path')->nullable();
             $table->boolean('is_approved')->default(false);

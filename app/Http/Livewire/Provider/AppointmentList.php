@@ -25,10 +25,12 @@ use Filament\Tables\Columns\BadgeColumn;
 class AppointmentList extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
+    public $view_modal = false;
+    public $view_details;
 
     protected function getTableQuery(): Builder
     {
-        return ClientAppointment::query()->whereNotIn('status', ['pending', 'done']);
+        return ClientAppointment::query()->whereNotIn('status', ['pending'])->where('service_provider_id', auth()->user()->service_provider->id);
     }
 
     protected function getTableColumns(): array
@@ -56,15 +58,14 @@ class AppointmentList extends Component implements Tables\Contracts\HasTable
 
         ];
     }
-
     protected function getTableActions(): array
     {
         return [
             Action::make('done')->label('Done')->button()->color('gray')->icon('heroicon-o-thumb-up')->visible(function ($record) {
-                return $record->status != 'cancelled';
+                return $record->status != 'done' && $record->status != 'cancelled' && $record->status != 'declined';
             })->action(
                     function ($record) {
-                        $description = $record->user->name . ', the service has been successfully done.';
+                        $description = $record->user->name . ', the service has been successfully done. Go to Appointments, and click rate to rate the service provider';
                         $record->update([
                             'status' => 'done',
                         ]);
@@ -75,16 +76,17 @@ class AppointmentList extends Component implements Tables\Contracts\HasTable
                             'description' => $description,
                             'read_at' => 'not_read',
                         ]);
-
-
+                        sweetalert()->addSuccess('Appointment Done.');
                     }
                 ),
-            Action::make('view')->label('View')->button()->color('warning')->visible(function ($record) {
-                return $record->status != 'cancelled';
-            })->icon('heroicon-o-eye'),
+            Action::make('view')->label('View')->button()->color('warning')->icon('heroicon-o-eye')->action(
+                function ($record) {
+                    $this->view_details = $record;
+                    $this->view_modal = true;
+                }
+            ),
         ];
     }
-
     public function render()
     {
         return view('livewire.provider.appointment-list');

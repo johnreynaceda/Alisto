@@ -17,8 +17,10 @@
                 </svg>
 
                 <div class="absolute -top-2 -right-4 ">
-                    <span
-                        class="text-xs font-medium bg-red-500 p-0.5 text-white px-2 rounded-full">{{ $not_read }}</span>
+                    @if ($not_read > 0)
+                        <span
+                            class="text-xs font-medium bg-red-500 p-0.5 text-white px-2 rounded-full">{{ $not_read }}</span>
+                    @endif
                 </div>
             </button>
         </div>
@@ -33,7 +35,7 @@
             <div class="p-2 px-4">
                 <div class="flex justify-between items-center">
                     <h1 class="text-gray-800">Notification</h1>
-                    <button class="text-sm">
+                    <button class="text-sm" wire:click="readAll">
                         Mark as Read
                     </button>
                 </div>

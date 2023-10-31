@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Client;
 
 use App\Models\ClientInformation;
+use App\Models\Location;
 use Livewire\Component;
 use App\Models\ServiceCategory;
 use Filament\Tables;
@@ -24,15 +25,18 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
     use WithFileUploads;
+    public $has_details;
     public $firstname, $middlename, $lastname, $contact_number, $address, $zipcode, $attachment = [];
+    public $location_id;
 
     public $complete_details = false;
     public function mount()
     {
         if (auth()->user()->client_information == null) {
-            $this->complete_details = true;
+            $this->has_details = true;
         } else {
-            $this->complete_details = false;
+            $this->has_details = false;
+            $this->location_id = Location::where('zip_code', auth()->user()->client_information->zipcode)->first()->id;
         }
     }
 
@@ -44,7 +48,7 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
                     TextInput::make('firstname')->label('First Name')->required(),
                     TextInput::make('middlename')->label('Middle Name')->required(),
                     TextInput::make('lastname')->label('Last Name')->required(),
-                    TextInput::make('contact_number')->label('Contact Number')->required(),
+                    TextInput::make('contact_number')->numeric()->label('Contact Number')->required()->mask(fn(TextInput\Mask $mask) => $mask->pattern('00000000000')),
                     TextInput::make('address')->label('Address')->required(),
                     TextInput::make('zipcode')->label('Zip Code')->required(),
                 ]),
@@ -76,8 +80,11 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
             ]);
         }
         $this->reset('firstname', 'middlename', 'lastname', 'contact_number', 'address', 'zipcode', 'attachment');
-        $this->complete_details = false;
+        sweetalert()->addSuccess('Your Account has been created!');
 
+        $this->complete_details = false;
+        $this->has_details = false;
+        return redirect()->route('dashboard');
 
     }
     public function render()
@@ -90,7 +97,8 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
 
     public function generatedQuery()
     {
-        if (auth()->user()->clientInformation != null) {
+
+        if (auth()->user()->client_information != null) {
 
             return ServiceCategory::whereHas('service_providers', function ($query) {
                 $query->where('is_approved', 1)->whereHas('location', function ($query) {

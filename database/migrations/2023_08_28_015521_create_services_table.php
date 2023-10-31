@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('service_category_id');
             $table->foreignId('service_provider_id');
             $table->string('price');
+            $table->boolean('is_hour')->default(false);
             $table->string('description')->nullable();
             $table->string('image_path')->nullable();
             $table->timestamps();

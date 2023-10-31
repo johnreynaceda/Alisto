@@ -26,7 +26,7 @@ class CategoryAdd extends Component implements Forms\Contracts\HasForms
     protected function getFormSchema(): array
     {
         return [
-            Fieldset::make('CATEGORY INFORMATION')
+            Fieldset::make('SERVICE INFORMATION')
                 ->schema([
                     TextInput::make('name')->required(),
                     TextInput::make('average')->label('Average Project')->required(),
@@ -41,6 +41,11 @@ class CategoryAdd extends Component implements Forms\Contracts\HasForms
 
     public function submitRecord()
     {
+        $this->validate([
+            'name' => 'required',
+            'average' => 'required',
+            'attachment' => 'required'
+        ]);
         sleep(3);
         foreach ($this->attachment as $key => $value) {
             ServiceCategory::create([

@@ -20,8 +20,8 @@
     <section class="mx-auto max-w-7xl py-10 relative">
         <h1 class="text-2xl text-main font-semibold ">Services Offered</h1>
         <div class="mt-5 grid grid-cols-1 2xl:grid-cols-4 gap-5">
-            @foreach ($providers as $item)
-                <a href="{{ route('client.services', ['id' => $item->id]) }}"
+            @forelse ($providers as $item)
+                <a href="/client/location/{{ $location_id }}/{{ $item->id }}"
                     class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
                     <div class="flex flex-col">
                         <img src="{{ Storage::url($item->banner_path) }}" class="h-56 object-cover rounded-xl m-2"
@@ -46,7 +46,8 @@
                         </div>
                     </div>
                 </a>
-            @endforeach
+            @empty
+            @endforelse
         </div>
     </section>
 

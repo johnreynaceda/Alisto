@@ -11,6 +11,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Livewire\WithFileUploads;
 
 class UpdateProfile extends Component implements Forms\Contracts\HasForms
@@ -18,7 +19,7 @@ class UpdateProfile extends Component implements Forms\Contracts\HasForms
     use WithFileUploads;
     use Forms\Concerns\InteractsWithForms;
 
-    public $name, $email, $attachment;
+    public $name, $email, $attachment, $contact, $zipcode;
 
 
     public function render()
@@ -31,9 +32,15 @@ class UpdateProfile extends Component implements Forms\Contracts\HasForms
     protected function getFormSchema(): array
     {
         return [
-            FileUpload::make('attachment')->reactive()->required(),
+            FileUpload::make('attachment')->label('Profile Picture')->reactive()->required(),
             TextInput::make('name')->required()->placeholder(auth()->user()->name),
             TextInput::make('email')->email()->required()->placeholder(auth()->user()->email),
+            TextInput::make('contact')->visible(auth()->user()->user_type != 'admin')->placeholder(
+                auth()->user()->user_type == 'client' ? auth()->user()->client_information->contact_number : (auth()->user()->service_provider->phone_number ?? '')
+            ),
+            TextInput::make('zipcode')->required()->visible(auth()->user()->user_type == 'client')->placeholder(
+                auth()->user()->user_type == 'client' ? auth()->user()->client_information->zipcode : ''
+            ),
 
         ];
     }
@@ -42,6 +49,7 @@ class UpdateProfile extends Component implements Forms\Contracts\HasForms
     {
         $this->validate([
             'attachment' => 'required',
+
         ]);
 
         $data = auth()->user();
@@ -52,6 +60,17 @@ class UpdateProfile extends Component implements Forms\Contracts\HasForms
                 'name' => $this->name,
                 'email' => $this->email,
             ]);
+
+            if (auth()->user()->user_type == 'client') {
+                $data->client_information->update([
+                    'contact_number' => $this->contact != null ? $this->contact : $data->client_information->contact_number,
+                    'zipcode' => $this->zipcode != null ? $this->zipcode : $data->client_information->zipcode,
+                ]);
+            } elseif (auth()->user()->user_type == 'service provider') {
+                $data->service_provider->update([
+                    'phone_number' => $this->contact != null ? $this->contact : $data->service_provider->phone_number,
+                ]);
+            }
 
             if ($profile == null) {
                 UserProfile::create([

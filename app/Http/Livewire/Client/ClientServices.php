@@ -20,7 +20,9 @@ class ClientServices extends Component
     public function render()
     {
         return view('livewire.client.client-services', [
-            'services' => Service::where('service_category_id', $this->catergory_id)->get(),
+            'services' => Service::where('service_category_id', $this->catergory_id)->whereHas('service_provider', function ($record) {
+                $record->where('is_approved', 1);
+            })->get(),
         ]);
     }
 

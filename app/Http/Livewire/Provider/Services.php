@@ -18,13 +18,15 @@ use Filament\Forms\Components\FileUpload;
 use Livewire\WithFileUploads;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
+use Filament\Forms\Components\Checkbox;
 
 class Services extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
     use WithFileUploads;
     public $add_modal = false;
-    public $name, $price, $description;
+    public $credentials_modal = false;
+    public $name, $price, $description, $is_hour = false;
     public $attachment = [];
 
 
@@ -40,7 +42,7 @@ class Services extends Component implements Tables\Contracts\HasTable
                 ->schema([
                     TextInput::make('name')->label('Name')->required(),
                     TextInput::make('price')->label('Price')->numeric()->required(),
-
+                    Checkbox::make('is_hour')->label('Hourly?')
                 ]),
 
 
@@ -54,6 +56,7 @@ class Services extends Component implements Tables\Contracts\HasTable
         return [
             ViewColumn::make('image')->view('provider.filament-service'),
             TextColumn::make('name')->searchable(),
+            TextColumn::make('description')->size('sm')->searchable(),
             TextColumn::make('price')->formatStateUsing(
                 function ($record) {
                     return '₱' . number_format($record->price, 2);
@@ -95,11 +98,12 @@ class Services extends Component implements Tables\Contracts\HasTable
 
     public function saveService()
     {
+        // dd($this->is_hour);
         $this->validate([
             'name' => 'required',
             'price' => 'required|numeric',
-            'description' => 'nullable',
-            'attachment' => 'nullable',
+            'description' => 'required',
+            'attachment' => 'required',
         ]);
 
         foreach ($this->attachment as $key => $item) {
@@ -108,11 +112,12 @@ class Services extends Component implements Tables\Contracts\HasTable
                 'service_category_id' => auth()->user()->service_provider->service_category_id,
                 'service_provider_id' => auth()->user()->service_provider->id,
                 'price' => $this->price,
+                'is_hour' => $this->is_hour,
                 'description' => $this->description,
                 'image_path' => $item->store('services', 'public'),
             ]);
         }
-
+        sweetalert()->addSuccess('Service Added Successfully!');
         $this->add_modal = false;
         $this->name = '';
         $this->price = '';

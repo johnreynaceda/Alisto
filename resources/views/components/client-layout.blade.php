@@ -7,13 +7,50 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="shortcut icon" href="{{ asset('images/alisto-logo1.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('images/alisto-logo.png') }}" />
 
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            display: flex;
+
+        }
+
+        swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
     <!-- Scripts -->
     <style>
         [x-cloak] {
@@ -25,6 +62,36 @@
     @livewireStyles
     @livewireScripts
     @stack('scripts')
+    <script type="module">
+        import KeenSlider from 'https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm'
+
+        const keenSlider = new KeenSlider(
+            '#keen-slider', {
+                loop: true,
+                slides: {
+                    origin: 'center',
+                    perView: 1.25,
+                    spacing: 16,
+                },
+                breakpoints: {
+                    '(min-width: 1024px)': {
+                        slides: {
+                            origin: 'auto',
+                            perView: 2.5,
+                            spacing: 32,
+                        },
+                    },
+                },
+            },
+            []
+        )
+
+        const keenSliderPrevious = document.getElementById('keen-slider-previous')
+        const keenSliderNext = document.getElementById('keen-slider-next')
+
+        keenSliderPrevious.addEventListener('click', () => keenSlider.prev())
+        keenSliderNext.addEventListener('click', () => keenSlider.next())
+    </script>
 </head>
 
 <body class="font-sans antialiased relative bg-white">
@@ -80,20 +147,14 @@
 
                         <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
                             <div @click.away="data = false" class="relative" x-data="{ data: false }">
-                                <button @click="data = !data"
+                                <a href="{{ route('client.location') }}"
                                     class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
                                     <span>
                                         Locations
                                     </span>
-                                    <svg fill="currentColor" viewBox="0 0 20 20"
-                                        :class="{ 'rotate-180': open, 'rotate-0': !open }"
-                                        class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <div x-show="data" x-transition:enter="transition ease-out duration-100"
+
+                                </a>
+                                {{-- <div x-show="data" x-transition:enter="transition ease-out duration-100"
                                     x-transition:enter-start="transform opacity-0 scale-95"
                                     x-transition:enter-end="transform opacity-100 scale-100"
                                     x-transition:leave="transition ease-in duration-75"
@@ -137,23 +198,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div @click.away="data = false" class="relative" x-data="{ data: false }">
-                                <button @click="data = !data"
+                                <a href="{{ route('client.services-all') }}"
                                     class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
                                     <span>
                                         Services
                                     </span>
-                                    <svg fill="currentColor" viewBox="0 0 20 20"
-                                        :class="{ 'rotate-180': open, 'rotate-0': !open }"
-                                        class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <div x-show="data" x-transition:enter="transition ease-out duration-100"
+
+                                </a>
+                                {{-- <div x-show="data" x-transition:enter="transition ease-out duration-100"
                                     x-transition:enter-start="transform opacity-0 scale-95"
                                     x-transition:enter-end="transform opacity-100 scale-100"
                                     x-transition:leave="transition ease-in duration-75"
@@ -188,12 +243,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
-                            <a class="px-2 py-2 font-medium text-gray-500 lg:px-6 md:px-3 hover:text-main"
+                            {{-- <a class="px-2 py-2 font-medium text-gray-500 lg:px-6 md:px-3 hover:text-main"
                                 href="{{ route('client.appointments') }}">
                                 Appointments
-                            </a>
+                            </a> --}}
                             {{-- <a href="{{ route('signin') }}"
                                 class="block px-4 py-2 mt-2 font-medium text-gray-500 md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
                                 Sign In
@@ -237,6 +292,11 @@
                                             class="block px-4 py-2 text-sm text-gray-500" role="menuitem"
                                             tabindex="-1" id="user-menu-item-0">
                                             Your Profile
+                                        </a>
+                                        <a href="{{ route('client.appointments') }}"
+                                            class="block px-4 py-2 text-sm text-gray-500" role="menuitem"
+                                            tabindex="-1" id="user-menu-item-0">
+                                            My Appointments
                                         </a>
 
 

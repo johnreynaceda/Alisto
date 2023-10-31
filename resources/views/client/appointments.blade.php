@@ -15,8 +15,8 @@
 
         </div>
     </section>
-    <div class="mx-auto bg-white max-w-7xl  -mt-20 mb-10 shadow rounded-2xl relative">
-        <div class="2xl:p-10 p-5">
+    <div class="mx-auto bg-white max-w-7xl  -mt-20 2xl:mb-56 shadow rounded-2xl relative">
+        <div class="2xl:p-10 p-5 ">
             <header class="text-2xl font-bold text-gray-700">
                 APPOINTMENTS
             </header>

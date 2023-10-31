@@ -13,7 +13,43 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
 
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            display: flex;
+
+        }
+
+        swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
     <!-- Scripts -->
     <style>
         [x-cloak] {
@@ -25,6 +61,37 @@
     @livewireStyles
     @livewireScripts
     @stack('scripts')
+
+    <script type="module">
+        import KeenSlider from 'https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm'
+
+        const keenSlider = new KeenSlider(
+            '#keen-slider', {
+                loop: true,
+                slides: {
+                    origin: 'center',
+                    perView: 1.25,
+                    spacing: 16,
+                },
+                breakpoints: {
+                    '(min-width: 1024px)': {
+                        slides: {
+                            origin: 'auto',
+                            perView: 2.5,
+                            spacing: 32,
+                        },
+                    },
+                },
+            },
+            []
+        )
+
+        const keenSliderPrevious = document.getElementById('keen-slider-previous')
+        const keenSliderNext = document.getElementById('keen-slider-next')
+
+        keenSliderPrevious.addEventListener('click', () => keenSlider.prev())
+        keenSliderNext.addEventListener('click', () => keenSlider.next())
+    </script>
 </head>
 
 <body class="font-sans antialiased relative bg-white">
@@ -80,20 +147,20 @@
 
                         <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
                             <div @click.away="data = false" class="relative" x-data="{ data: false }">
-                                <button @click="data = !data"
+                                <a href="{{ route('location') }}"
                                     class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
                                     <span>
                                         Locations
                                     </span>
-                                    <svg fill="currentColor" viewBox="0 0 20 20"
+                                    {{-- <svg fill="currentColor" viewBox="0 0 20 20"
                                         :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                         class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
                                         <path fill-rule="evenodd"
                                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                             clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <div x-show="data" x-transition:enter="transition ease-out duration-100"
+                                    </svg> --}}
+                                </a>
+                                {{-- <div x-show="data" x-transition:enter="transition ease-out duration-100"
                                     x-transition:enter-start="transform opacity-0 scale-95"
                                     x-transition:enter-end="transform opacity-100 scale-100"
                                     x-transition:leave="transition ease-in duration-75"
@@ -106,7 +173,7 @@
                                             <div class="">
                                                 <div class="grid grid-cols-3 gap-8">
                                                     @foreach (\App\Models\Location::get() as $item)
-                                                        <a href="#"
+                                                        <a href="{{ route('login') }}"
                                                             class="inline-flex items-start p-3 border hover:shadow hover:shadow-main group -m-3 transition duration-150 ease-in-out rounded-xl hover:bg-gray-100">
                                                             <div class="ml-4 flex w-full justify-between items-center">
                                                                 <div class="flex items-center space-x-2">
@@ -137,23 +204,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div @click.away="data = false" class="relative" x-data="{ data: false }">
-                                <button @click="data = !data"
+                                <a href="{{ route('services') }}"
                                     class="flex flex-row items-center w-full px-4 py-2 mt-2 font-medium text-left text-gray-500 md:w-auto md:inline md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
                                     <span>
                                         Services
                                     </span>
-                                    <svg fill="currentColor" viewBox="0 0 20 20"
+                                    {{-- <svg fill="currentColor" viewBox="0 0 20 20"
                                         :class="{ 'rotate-180': open, 'rotate-0': !open }"
                                         class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 rotate-0">
                                         <path fill-rule="evenodd"
                                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                             clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <div x-show="data" x-transition:enter="transition ease-out duration-100"
+                                    </svg> --}}
+                                </a>
+                                {{-- <div x-show="data" x-transition:enter="transition ease-out duration-100"
                                     x-transition:enter-start="transform opacity-0 scale-95"
                                     x-transition:enter-end="transform opacity-100 scale-100"
                                     x-transition:leave="transition ease-in duration-75"
@@ -166,7 +233,7 @@
                                             <div class="">
                                                 <div class="grid grid-cols-3 gap-8">
                                                     @foreach (\App\Models\ServiceCategory::get() as $item)
-                                                        <a href="#"
+                                                        <a href="{{ route('login') }}"
                                                             class="inline-flex items-start p-3 border hover:shadow hover:shadow-main group -m-3 transition duration-150 ease-in-out rounded-xl hover:bg-gray-100">
                                                             <div class="ml-4 flex w-full justify-between items-center">
                                                                 <p class="text-base font-medium text-gray-700">
@@ -188,7 +255,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <a href="{{ route('signin') }}"
                                 class="block px-4 py-2 mt-2 font-medium text-gray-500 md:mt-0 hover:text-main focus:outline-none focus:shadow-outline">
@@ -224,7 +291,7 @@
 
             </div>
         </section>
-        <section
+        <section id="popularprojects"
             class="mx-auto max-w-4xl bg-white 2xl:shadow-md 2xl:shadow-main 2xl:rounded-xl 2xl:-mt-20 relative 2xl:p-10 p-5">
             <center>
                 <h1 class="text-2xl font-bold text-gray-700 font-sans">NEED HELP? Just Click</h1>
@@ -247,7 +314,7 @@
                                 2xl:text-lg py-3 rounded-xl border-0 focus:ring-0 focus:outline-none"
                                 placeholder="What do you need help with?">
 
-                            <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                            <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100"
                                 x-transition:enter-start="transform opacity-0 scale-95"
                                 x-transition:enter-end="transform opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
@@ -275,65 +342,36 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="bg-main text-white px-5 text-lg py-3 rounded-xl" x-on:click="open=!open">Get
-                            Help Today</button>
+                        <a href="{{ route('login') }}" class="bg-main text-white px-5 text-lg py-3 rounded-xl">Get
+                            Help Today</a>
                     </div>
                 </div>
 
 
             </center>
         </section>
-        <section class="relative
+        <section id="popularprojects" class="relative
                             my-20 mx-auto 2xl:max-w-7xl px-5">
             <header class="flex flex-col space-y-2">
                 <h1 class="2xl:text-3xl font-bold text-gray-700">Popular Projects in your Area</h1>
                 <div class="w-20 h-1 bg-main rounded-full"></div>
             </header>
             <div class="mt-5 grid grid-cols-1 2xl:grid-cols-4 gap-5">
-                @forelse (\App\Models\ServiceCategory::whereHas('service_providers')->get() as $item)
-                    <a href="{{ route('login') }}"
-                        class="border bg-white hover:shadow-main shadow-sm hover:shadow-lg rounded-xl h-96">
-                        <div class="flex flex-col">
-                            <img src="{{ Storage::url($item->banner_path) }}"
-                                class="h-56 object-cover rounded-xl m-2" alt="">
-                            <div class="p-3">
-                                <p class="font-semibold text-main mt-5 text-lg text-center">{{ $item->name }}</p>
-
-                                <div class="price mt-5">
-                                    <div class="flex space-x-2 justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            class="h-6 w-6 fill-main">
-                                            <path
-                                                d="M3.00488 6.99981L11.4502 1.36961C11.7861 1.14568 12.2237 1.14568 12.5596 1.36961L21.0049 6.99981V20.9998C21.0049 21.5521 20.5572 21.9998 20.0049 21.9998H4.00488C3.4526 21.9998 3.00488 21.5521 3.00488 20.9998V6.99981ZM5.00488 8.07018V19.9998H19.0049V8.07018L12.0049 3.40351L5.00488 8.07018ZM8.00488 15.9998H16.0049V17.9998H8.00488V15.9998ZM8.00488 12.9998H16.0049V14.9998H8.00488V12.9998ZM12.0049 10.9998C10.9003 10.9998 10.0049 10.1044 10.0049 8.99981C10.0049 7.89524 10.9003 6.99981 12.0049 6.99981C13.1095 6.99981 14.0049 7.89524 14.0049 8.99981C14.0049 10.1044 13.1095 10.9998 12.0049 10.9998Z">
-                                            </path>
-                                        </svg>
-                                        <span class="text-gray-600 font-medium">Avg. Project:
-                                            &#8369;{{ $item->avg_project }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                @empty
-                    <span class="text-xl mt-10 italic">
-                        No Services Available...
-                    </span>
-                @endforelse
-
+                <span class=" col-span-3 text-xl">NO AVAILABLE SERVICE SIGN IN FIRST TO SEE THE SERVICES</span>
             </div>
         </section>
 
         <section>
-            <div class="w-full bg-gray-200 relative">
-                <div class="relative  items-center w-full px-5 py-24 mx-auto md:px-12 lg:px-16 max-w-7xl">
+            <div class="w-full relative">
+                <div class="relative  items-center w-full px-5 py-20 2xl:py-40   mx-auto md:px-12 lg:px-16 max-w-7xl">
                     <div class="w-full mx-auto text-left">
                         <div class="relative flex-col items-center m-auto align-middle">
-                            <div class="items-center gap-12 text-left lg:gap-24 lg:inline-flex">
+                            <div class="items-start gap-12 text-left lg:gap-24 lg:inline-flex">
                                 <div class="order-first block w-full mt-12 aspect-square lg:mt-0">
-                                    <img class="object-cover object-center w-full mx-auto bg-gray-300 border lg:ml-auto"
+                                    <img class="object-cover object-center w-full h-full mx-auto  border lg:ml-auto"
                                         alt="hero" src="{{ asset('images/everyday.png') }}">
                                 </div>
-                                <div class="flex flex-col mt-6 lg:mt-0">
+                                <div class="flex flex-col mt-6">
                                     <div class="max-w-xl">
                                         <div>
                                             <p class="text-2xl font-medium tracking-tight text-black sm:text-4xl">
@@ -343,10 +381,10 @@
                                     </div>
                                     <div class="mx-auto mt-6 lg:max-w-7xl">
                                         <ul role="list"
-                                            class="grid grid-cols-2 gap-4 list-none lg:grid-cols-1 lg:gap-3">
+                                            class="grid grid-cols-2 gap-4 text-lg list-none lg:grid-cols-1 lg:gap-3">
                                             <li>
 
-                                                <div class="mt-2 text-bold text-gray-900">
+                                                <div class="mt-2 text-bold text-gray-900 text-xl">
                                                     You don't have to handle life's busiest times alone. Reclaim your
                                                     free time for your passions without breaking the bank.
                                                 </div>
@@ -360,7 +398,7 @@
                                                         </path>
                                                     </svg>
                                                 </div>
-                                                <div class=" text-base text-gray-700">
+                                                <div class=" text-xl text-gray-700">
                                                     Choose your Service Provider by reviews, skills, and price
                                                 </div>
                                             </li>
@@ -373,7 +411,7 @@
                                                         </path>
                                                     </svg>
                                                 </div>
-                                                <div class=" text-base text-gray-700">
+                                                <div class=" text-xl text-gray-700">
                                                     Set a time slot that works for you, starting right now
                                                 </div>
                                             </li>
@@ -386,13 +424,14 @@
                                                         </path>
                                                     </svg>
                                                 </div>
-                                                <div class=" text-base text-gray-700">
+                                                <div class=" text-xl text-gray-700">
                                                     Message, call, pay, tip, and review all through one platform
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -400,115 +439,186 @@
             </div>
         </section>
 
-        <section class="bg-white">
-            <div class="px-8 py-24 mx-auto max-w-7xl lg:px-16 md:px-12 xl:px-36">
-                <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
-                    @foreach (\App\Models\Feedback::all() as $item)
-                        <div class="p-8 bg-gray-100 rounded-3xl group lg:items-start sm:flex">
-                            <div>
-                                <p class="text-sm text-gray-600">
-                                    {{ $item->feedback }}
-                                </p>
-                                <div class="inline-flex items-center w-full h-full mt-2">
-                                    <div class="mt-6">
-                                        <div class="flex-shrink-0 block">
-                                            <div class="flex items-center">
-                                                <div>
-                                                    <img alt=""
-                                                        class="inline-block object-cover rounded-full h-9 w-9"
-                                                        src="{{ asset('images/alisto-logo.png') }}">
+        <section class="">
+            <div class="">
+                <section class="bg-gray-800 relative py-24">
+                    <img src="{{ asset('images/bg1.jpg') }}"
+                        class="absolute top-0 bottom-0 opacity-30 object-cover w-full h-full" alt="">
+                    <div class="p-10 relative">
+                        <div class="max-w-7xl items-end justify-between sm:flex sm:pe-6 lg:pe-8">
+                            <h2 class="max-w-xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                                Read trusted reviews from our customers
+                            </h2>
+
+                            <div class="mt-8 flex gap-4 lg:mt-0">
+                                <button aria-label="Previous slide" id="keen-slider-previous"
+                                    class="rounded-full border border-white p-3 text-white transition hover:bg-white hover:text-main">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="h-5 w-5 rtl:rotate-180">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                </button>
+
+                                <button aria-label="Next slide" id="keen-slider-next"
+                                    class="rounded-full border border-white p-3 text-white transition hover:bg-white hover:text-main">
+                                    <svg class="h-5 w-5 rtl:rotate-180" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="2xl:-mx-6 -mx-10 mt-8 lg:col-span-2 lg:mx-0">
+                            <div id="keen-slider" class="keen-slider">
+                                @foreach (\App\Models\Feedback::all() as $item)
+                                    <div class="keen-slider__slide">
+                                        <blockquote
+                                            class="flex h-full flex-col justify-between bg-white rounded-xl bg-opacity-80 p-6 shadow-sm sm:p-8 lg:p-12">
+                                            <div>
+                                                {{-- <div class="flex gap-0.5 text-green-500">
+                                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+
+                                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+
+                                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+
+                                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+
+                                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+                                                </div> --}}
+                                                <div x-data="{ rating: {{ $item->rating }} }">
+
+                                                    <div class="flex items-center ">
+                                                        <template x-for="i in 5">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="h-6 w-6 cursor-pointer"
+                                                                :class="{
+                                                                    'fill-yellow-400': i <= rating,
+                                                                    'fill-gray-600': i >
+                                                                        rating
+                                                                }"
+                                                                fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path
+                                                                    d="M12.0008 17L6.12295 20.5902L7.72105 13.8906L2.49023 9.40983L9.35577 8.85942L12.0008 2.5L14.6458 8.85942L21.5114 9.40983L16.2806 13.8906L17.8787 20.5902L12.0008 17Z">
+                                                                </path>
+                                                            </svg>
+                                                        </template>
+                                                    </div>
                                                 </div>
-                                                <div class="ml-3">
-                                                    <p
-                                                        class="text-sm font-medium text-black group-hover:text-blue-600">
-                                                        {{ \App\Models\User::where('id', $item->user_id)->first()->name }}
+                                                <div class="mt-4">
+                                                    <p class="text-2xl font-bold text-main sm:text-3xl">
+                                                        <span class="uppercase">
+                                                            {{ \App\Models\ServiceProvider::where('id', $item->service_provider_id)->first()->user->name }}</span>
                                                     </p>
-                                                    <p
-                                                        class=" text-xs font-medium text-blue-500 group-hover:text-black">
-                                                        {{ \App\Models\ServiceProvider::where('id', $item->service_provider_id)->first()->user->name }}
+
+                                                    <p class="mt-4 leading-relaxed text-gray-700">
+                                                        {{ $item->feedback }}
                                                     </p>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            <footer class="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
+                                                &mdash;
+                                                {{ \App\Models\User::where('id', $item->user_id)->first()->name }}
+                                            </footer>
+                                        </blockquote>
                                     </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
-                    @endforeach
-
-
-                </div>
+                    </div>
+                </section>
+            </div>
         </section>
 
 
+
         <section>
-            <div class="relative items-center w-full px-5 py-24 mx-auto md:px-12 lg:px-16 max-w-7xl">
-                <div class="w-full mx-auto text-left">
-                    <div class="relative flex-col items-center m-auto align-middle">
-                        <div class="items-center gap-12 text-left lg:gap-24 lg:inline-flex">
-                            <div class="flex flex-col m-auto md:order-first">
-                                <div class="max-w-xl">
-                                    <div>
-                                        <p class="text-2xl font-medium tracking-tight text-black sm:text-4xl">
-                                            A go-to team service provider in just one click
-                                        </p>
+            <div class="w-full  relative">
+                <div class="relative  items-center w-full px-5 py-20 2xl:py-40 mx-auto md:px-12 lg:px-16 max-w-7xl">
+                    <div class="w-full mx-auto text-left">
+                        <div class="relative flex-col items-center m-auto align-middle">
+                            <div class="items-start gap-12 text-left lg:gap-24 lg:inline-flex">
+                                <div class="flex flex-col mt-6">
+                                    <div class="max-w-xl">
+                                        <div>
+                                            <p class="text-2xl font-medium tracking-tight text-black sm:text-4xl">
+                                                Day-to-day living made simpler
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="mx-auto mt-6 lg:max-w-7xl">
+                                        <ul role="list"
+                                            class="grid grid-cols-2 gap-4 text-lg list-none lg:grid-cols-1 lg:gap-3">
+                                            <li>
+
+                                                <div class="mt-2 text-bold text-gray-900 text-xl">
+                                                    Build your team, background-checked Service Providers to help with —
+                                                    and
+                                                    for — life. Whatever you need, they’ve got it covered.
+                                                </div>
+                                            </li>
+                                            <li class="flex space-x-2 items-start">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        class="h-6 w-6 fill-green-600">
+                                                        <path
+                                                            d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <div class=" text-xl text-gray-700">
+                                                    Choose your Service Provider by reviews, skills, and price
+                                                </div>
+                                            </li>
+                                            <li class="flex space-x-2 items-start">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        class="h-6 w-6 fill-green-600">
+                                                        <path
+                                                            d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <div class=" text-xl text-gray-700">
+                                                    Choose and connect with the best service provider for the job
+                                                </div>
+                                            </li>
+
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="mx-auto mt-6 lg:max-w-7xl">
-                                    <ul role="list"
-                                        class="grid grid-cols-2 gap-4 list-none lg:grid-cols-1 lg:gap-3">
-                                        <li>
-
-                                            <div class="mt-2 text-bold text-gray-900">
-                                                Build your team, background-checked Service Providers to help with — and
-                                                for — life. Whatever you need, they’ve got it covered.
-                                            </div>
-                                        </li>
-                                        <li class="flex space-x-2 items-start">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    class="h-6 w-6 fill-green-600">
-                                                    <path
-                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <div class=" text-base text-gray-700">
-                                                Choose your Service Provider by reviews, skills, and price
-                                            </div>
-                                        </li>
-                                        <li class="flex space-x-2 items-start">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    class="h-6 w-6 fill-green-600">
-                                                    <path
-                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <div class=" text-base text-gray-700">
-                                                Choose and connect with the best service provider for the job
-                                            </div>
-                                        </li>
-                                        <li class="flex space-x-2 items-start">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    class="h-6 w-6 fill-green-600">
-                                                    <path
-                                                        d="M11.602 13.7599L13.014 15.1719L21.4795 6.7063L22.8938 8.12051L13.014 18.0003L6.65 11.6363L8.06421 10.2221L10.189 12.3469L11.6025 13.7594L11.602 13.7599ZM11.6037 10.9322L16.5563 5.97949L17.9666 7.38977L13.014 12.3424L11.6037 10.9322ZM8.77698 16.5873L7.36396 18.0003L1 11.6363L2.41421 10.2221L3.82723 11.6352L3.82604 11.6363L8.77698 16.5873Z">
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <div class=" text-base text-gray-700">
-                                                Save your favorites to book again and again
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="order-second block w-full mt-12 aspect-square lg:mt-0">
+                                    <img class="object-cover object-center h-full w-full mx-auto  border lg:ml-auto"
+                                        alt="hero" src="{{ asset('images/goateam.png') }}">
                                 </div>
-                            </div>
-                            <div class="order-first block w-full mt-12 aspect-square lg:mt-0">
-                                <img class="object-cover object-center w-full mx-auto bg-gray-300 border lg:ml-auto"
-                                    alt="hero" src="{{ asset('images/goateam.png') }}">
+
+
                             </div>
                         </div>
                     </div>
@@ -522,7 +632,7 @@
                     <div class="flex flex-col space-y-3 items-center">
                         <center>
                             <img src="{{ asset('images/signup.png') }}" class="h-96" alt="">
-                            <p class="text-lg">Hear that? The sweet sigh of relief. Start getting more done.</p>
+                            <p class="text-lg h-20">Hear that? The sweet sigh of relief. Start getting more done.</p>
 
                         </center>
                         <a href="{{ route('register') }}"
@@ -531,9 +641,9 @@
                         </a>
                     </div>
                     <div class="flex flex-col space-y-3 items-center">
-                        <center>
+                        <center class="">
                             <img src="{{ asset('images/becomeaservice.png') }}" alt="">
-                            <p class="text-lg">Grow your own business while saving the day for busy neighbors.</p>
+                            <p class="text-lg h-20">Grow your own business while saving the day for busy neighbors.</p>
 
                         </center>
                         <a href="{{ route('service-provider') }}"
@@ -549,7 +659,10 @@
         </section>
 
 
-        <x-shared.footer />
+
+    </div>
+
+    <x-shared.footer />
 
 
     </div>
@@ -559,7 +672,18 @@
 
 
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var splide = new Splide('.splide', {
+                type: 'loop',
+                height: '10rem',
+                focus: 'center',
+                autoWidth: true,
+            });
 
+            splide.mount();
+        });
+    </script>
 
 </body>
 

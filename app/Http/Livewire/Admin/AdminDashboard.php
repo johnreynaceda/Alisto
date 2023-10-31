@@ -27,8 +27,8 @@ class AdminDashboard extends Component implements Tables\Contracts\HasTable
     public function render()
     {
         return view('livewire.admin.admin-dashboard', [
-            'service_provider' => ServiceProvider::count(),
-            'services' => Service::count(),
+            'service_provider' => ServiceProvider::where('is_approved', true)->count(),
+            'services' => ServiceCategory::count(),
             'clients' => ClientInformation::count(),
             'categories' => ServiceCategory::count(),
         ]);
@@ -46,8 +46,10 @@ class AdminDashboard extends Component implements Tables\Contracts\HasTable
         return [
             TextColumn::make('user.name')->label('PROVIDER NAME')->searchable(),
             TextColumn::make('user.email')->label('EMAIL')->searchable(),
+            TextColumn::make('phone_number')->label('PHONE NUMBER')->searchable(),
             TextColumn::make('location.location')->label('LOCATION')->searchable(),
-            TextColumn::make('service_category.name')->label('SERVICE CATEGORY')->searchable(),
+            TextColumn::make('service_category.name')->label('SERVICE')->searchable(),
+            ViewColumn::make('status')->label('VALID ID')->view('admin.filament.profile')
 
         ];
     }

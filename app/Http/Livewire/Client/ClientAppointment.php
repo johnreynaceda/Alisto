@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client;
 
+use App\Mail\AlistoNotification;
 use App\Models\Feedback;
 use App\Models\Notification;
 use App\Models\ServiceProvider;
@@ -10,6 +11,9 @@ use App\Models\ClientAppointment as appointmentModel;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms;
 use Illuminate\Contracts\View\View;
+use App\Mail\AppointmentNotification;
+use Illuminate\Support\Facades\Mail;
+use DB;
 
 class ClientAppointment extends Component implements Forms\Contracts\HasForms
 {
@@ -17,6 +21,14 @@ class ClientAppointment extends Component implements Forms\Contracts\HasForms
     public $feedback_modal = false;
     public $appointment_id;
     public $feedback;
+
+    public $rating = 0;
+
+    public function rate($value)
+    {
+        $this->rating = $value;
+    }
+
     public function render()
     {
         return view('livewire.client.client-appointment', [
@@ -60,19 +72,34 @@ class ClientAppointment extends Component implements Forms\Contracts\HasForms
     {
         $data = appointmentModel::where('id', $this->feedback_id)->first();
 
+        DB::beginTransaction();
         Feedback::create([
             'user_id' => auth()->user()->id,
+            'client_appointment_id' => $data->id,
             'service_provider_id' => $data->service_provider_id,
             'feedback' => $this->feedback,
+            'rating' => $this->rating
         ]);
 
         $receiver = ServiceProvider::where('id', $data->service_provider_id)->first()->user_id;
-        Notification::create([
+        $email = ServiceProvider::where('id', $data->service_provider_id)->first()->user->email;
+        $subject = ServiceProvider::where('id', $data->service_provider_id)->first();
+
+
+
+        $notif = Notification::create([
             'sender_id' => auth()->user()->id,
             'receiver_id' => $receiver,
             'description' => auth()->user()->name . ' has been given a feedback',
             'read_at' => 'not_read',
         ]);
+
+
+
+        Mail::to($email)->send(new AlistoNotification($notif->description));
+        DB::commit();
+
+        $this->feedback_modal = false;
 
         sweetalert()->addSuccess('Feedback has been saved');
     }

@@ -3,7 +3,8 @@
     <div>
 
         <div class="grid grid-cols-3 gap-5">
-            <div class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
+            <a href="{{ route('provider.services') }}"
+                class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
                 <div class="flex justify-end">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-gray-500 ">
                         <path
@@ -25,8 +26,9 @@
                         </path>
                     </svg>
                 </div>
-            </div>
-            <div class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
+            </a>
+            <a href="{{ route('provider.appointments') }}"
+                class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
                 <div class="flex justify-end">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-gray-500  ">
                         <path
@@ -48,8 +50,9 @@
                         </path>
                     </svg>
                 </div>
-            </div>
-            <div class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
+            </a>
+            <a href="{{ route('provider.clients') }}"
+                class="border-2 cursor-pointer border-main bg-gray-100 rounded-xl relative overflow-hidden group p-6">
                 <div class="flex justify-end">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-gray-500  ">
                         <path
@@ -71,10 +74,27 @@
                         </path>
                     </svg>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="mt-5">
+            @if (!auth()->user()->service_provider->is_approved)
+                <div class="mb-5">
+                    <div class="border animate-pulse border-red-600 fill-red-600 rounded-xl p-3">
+                        <div class="flex space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5">
+                                <path
+                                    d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z">
+                                </path>
+                            </svg>
+                            <p class="text-red-600">Please wait for the approval. this will let your services be
+                                availble on
+                                the customers side.
+                                Thank You.</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <livewire:provider.provider-dashboard />
         </div>
     </div>

@@ -9,7 +9,7 @@
                 <div class="w-20 bg-main h-0.5 mt-5 rounded-full"></div>
             </div>
             <div class="mt-5">
-                <div class="grid 2xl:grid-cols-3 col-span-1 gap-2" x-data="{ open: false }">
+                <div class="grid 2xl:grid-cols-3 col-span-1 gap-2" x-data="{ open: @entangle('services_modal') }">
                     <div class="flex 2xl:col-span-2 h-14  px-3 items-center border rounded-xl relative">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             class="2xl:h-9 2xl:w-9 h-6 w-6 fill-main">
@@ -22,13 +22,14 @@
                         2xl:text-lg py-3 rounded-xl border-0 focus:ring-0 focus:outline-none"
                             placeholder="What do you need help with?">
 
-                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                        <div x-show="open" x-on:click.away="open=false" x-cloak
+                            x-transition:enter="transition ease-out duration-100"
                             x-transition:enter-start="transform opacity-0 scale-95"
                             x-transition:enter-end="transform opacity-100 scale-100"
                             x-transition:leave="transition ease-in duration-75"
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute -bottom-[31.9rem] z-10 right-0  left-0 bg-white rounded border">
+                            class="absolute -bottom-[31.9rem] z-10 right-0  left-0 bg-white rounded ">
                             <div class="h-[32rem]">
                                 <div class="flex p-4">
                                     <p class="text-gray-500"> Describe your task in a few words</p>
@@ -37,17 +38,22 @@
                                     <span>Popular Projects</span>
                                     <span>Project (&#8369;)</span>
                                 </div>
-                                <div class="border-b mt-3 flex flex-col px-4 py-2">
+                                <div class="s mt-3 flex flex-col   py-2">
                                     @forelse ($services as $service)
                                         <a href="{{ route('client.services-provider', ['id' => $service->id]) }}"
-                                            class="flex group justify-between group items-center">
-                                            <span
-                                                class="font-medium group-hover:font-bold group-hover:text-main uppercase  text-gray-700">{{ $service->name }}</span>
-                                            <div
-                                                class="flex space-x-3 text-gray-500 group-hover:font-bold group-hover:text-main text-sm">
-                                                <span>Avg. Project:</span>
-                                                <span>&#8369;{{ number_format($service->price, 2) }}</span>
+                                            class=" px-4 group flex flex-col border-b">
+                                            <div class="flex justify-between group  items-center">
+                                                <span
+                                                    class="font-medium group-hover:font-bold group-hover:text-main uppercase  text-gray-700">{{ $service->name }}</span>
+                                                <div
+                                                    class="flex space-x-3 text-gray-500 group-hover:font-bold group-hover:text-main text-sm">
+                                                    <span>Avg. Project:</span>
+                                                    <span>&#8369;{{ number_format($service->price, 2) }}</span>
+                                                </div>
                                             </div>
+                                            <h1 class="flex text-xs text-main">
+                                                {{ $service->service_provider->user->name }}</h1>
+
                                         </a>
                                     @empty
                                         <div class="text-center">

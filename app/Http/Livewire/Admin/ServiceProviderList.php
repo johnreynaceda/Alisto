@@ -17,6 +17,9 @@ use Filament\Tables\Columns\BadgeColumn;
 class ServiceProviderList extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
+    public $view_details = false;
+
+    public $provider_details = [];
 
     protected function getTableQuery(): Builder
     {
@@ -30,18 +33,33 @@ class ServiceProviderList extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('user.name')->label('NAME')->searchable(),
             Tables\Columns\TextColumn::make('location.location')->label('LOCATION')->searchable(),
             Tables\Columns\TextColumn::make('service_category.name')->label('SERVICE CATEGORY')->searchable(),
-            BadgeColumn::make('is_approved')
+            BadgeColumn::make('is_approved')->label('APPROVED/DISAPPROVED')
                 ->enum([
                     1 => 'Approved',
                     0 => 'Pending',
+                    2 => 'Disapproved'
                 ])->colors([
                         'success' => 1,
                         'warning' => 0,
+                        'danger' => 2
                     ])->icons([
                         'heroicon-o-thumb-up' => 1,
                         'heroicon-o-thumb-down' => 0,
+                        'heroicon-o-x' => 2,
                     ])
 
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('edit')->label('View Details')->icon('heroicon-o-eye')->color('warning')->action(
+                function ($record) {
+                    $this->provider_details = $record;
+                    $this->view_details = true;
+                }
+            )
         ];
     }
 

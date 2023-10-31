@@ -21,6 +21,9 @@ class ClientList extends Component implements Tables\Contracts\HasTable
 {
 
     use Tables\Concerns\InteractsWithTable;
+    public $view_details = false;
+
+    public $client_details = [];
 
     protected function getTableQuery(): Builder
     {
@@ -42,6 +45,19 @@ class ClientList extends Component implements Tables\Contracts\HasTable
 
         ];
     }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('edit')->label('View Details')->icon('heroicon-o-eye')->color('warning')->action(
+                function ($record) {
+                    $this->client_details = $record;
+                    $this->view_details = true;
+                }
+            )
+        ];
+    }
+
 
     public function render()
     {

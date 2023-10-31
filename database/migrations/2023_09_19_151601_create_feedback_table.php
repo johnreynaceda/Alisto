@@ -13,7 +13,9 @@ return new class extends Migration {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('client_appointment_id');
             $table->foreignId('service_provider_id');
+            $table->integer('rating');
             $table->string('feedback');
             $table->timestamps();
         });

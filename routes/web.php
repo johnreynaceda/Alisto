@@ -15,11 +15,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        if (auth()->user()->user_type == 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif (auth()->user()->user_type == 'service provider') {
+            return redirect()->route('provider.dashboard');
+        } else {
+            return redirect()->route('client.dashboard');
+        }
+
+    } else {
+        return view('welcome');
+    }
 });
 Route::get('/sign-in', function () {
     return view('pages.signin');
 })->name('signin');
+
+Route::get('/location', function () {
+    return view('pages.location');
+})->name('location');
+
+Route::get('/services', function () {
+    return view('pages.services');
+})->name('services');
+
 Route::get('/became-a-service-provider', function () {
     return view('pages.service-provider');
 })->name('service-provider');
@@ -59,6 +79,7 @@ Route::prefix('administrator')->middleware(['auth', 'verified'])->group(function
         return view('admin.accounts');
     })->name('admin.accounts');
 
+
 });
 
 //CLIENT
@@ -78,6 +99,15 @@ Route::prefix('client')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/location/{id}', function () {
         return view('client.locations');
     })->name('client.locations');
+    Route::get('/location/{id}/{servicesid}', function () {
+        return view('client.location-services');
+    })->name('client.location-services');
+    Route::get('/location', function () {
+        return view('client.location');
+    })->name('client.location');
+    Route::get('/services-all', function () {
+        return view('client.services-all');
+    })->name('client.services-all');
 
 });
 
@@ -93,6 +123,9 @@ Route::prefix('service-provider')->middleware(['auth', 'verified'])->group(funct
     Route::get('/appointments', function () {
         return view('provider.appointments');
     })->name('provider.appointments');
+    Route::get('/clients', function () {
+        return view('provider.clients');
+    })->name('provider.clients');
 });
 
 Route::middleware('auth')->group(function () {

@@ -34,7 +34,7 @@ class Location extends Component implements Tables\Contracts\HasTable
     protected function getTableHeaderActions()
     {
         return [
-            Action::make('new_location')->label('New Location')->button()->size('md')->color('gray')->icon('heroicon-o-plus-circle')->action(
+            Action::make('new_location')->label('New Location')->button()->size('md')->color('success')->icon('heroicon-o-plus-circle')->action(
                 function ($record, $data) {
                     ModelsLocation::create([
                         'location' => $data['location'],

@@ -64,4 +64,9 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function provider_credentials()
+    {
+        return $this->hasMany(ProviderCredential::class);
+    }
+
 }

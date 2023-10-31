@@ -9,4 +9,14 @@ class Feedback extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function service_provider()
+    {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
+    public function client_appointment()
+    {
+        return $this->belongsTo(ClientAppointment::class);
+    }
 }

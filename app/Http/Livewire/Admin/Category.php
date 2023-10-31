@@ -37,7 +37,7 @@ class Category extends Component implements Tables\Contracts\HasTable
     protected function getTableHeaderActions()
     {
         return [
-            Action::make('new_category')->label('New Category')->button()->size('md')->color('gray')->icon('heroicon-o-plus-circle')->action(
+            Action::make('new_category')->label('Add Service')->button()->size('md')->color('success')->icon('heroicon-o-plus-circle')->action(
                 function ($record, $data) {
                     // ServiceCategory::create([
                     //     'name' => $data['name'],
@@ -61,14 +61,14 @@ class Category extends Component implements Tables\Contracts\HasTable
             )->form(
                     function ($record) {
                         return [
-                            Fieldset::make('CATEGORY INFORMATION')
+                            Fieldset::make('SERVICE INFORMATION')
                                 ->schema([
                                     TextInput::make('name')->label('Name')->required()->default($record->name),
                                     TextInput::make('avg_project')->label('Average Project')->required()->default($record->avg_project),
                                 ])->columns(1)
                         ];
                     }
-                )->modalWidth('lg')->modalHeading('Update Category'),
+                )->modalWidth('lg')->modalHeading('Update Service'),
             Tables\Actions\DeleteAction::make(),
         ];
     }
