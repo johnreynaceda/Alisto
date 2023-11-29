@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('avg_project')->nullable();
             $table->string('banner_path')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }

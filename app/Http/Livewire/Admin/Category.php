@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
 use Livewire\Component;
 use App\Models\ServiceCategory;
 use Filament\Tables;
@@ -15,6 +17,11 @@ use Filament\Forms\Components\TextInput;
 class Category extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
+
+    public $edit_modal = false;
+    public $service_data;
+
+    public $name, $description, $average, $attachment;
 
     protected function getTableQuery(): Builder
     {
@@ -31,6 +38,14 @@ class Category extends Component implements Tables\Contracts\HasTable
                     return '₱' . $record->avg_project;
                 }
             ),
+            Tables\Columns\TextColumn::make('description')->label('DESCRIPTION')->words(10)->searchable(),
+        ];
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            FileUpload::make('attachment')->label('Banner')
         ];
     }
 
@@ -56,21 +71,42 @@ class Category extends Component implements Tables\Contracts\HasTable
         return [
             Action::make('edit')->label('Edit')->icon('heroicon-o-pencil-alt')->color('success')->action(
                 function ($record, $data) {
-                    $record->update($data);
+                    $this->edit_modal = true;
+                    $this->service_data = $record;
+                    $this->name = $record->name;
+                    $this->description = $record->description;
+                    $this->average = $record->avg_project;
                 }
-            )->form(
-                    function ($record) {
-                        return [
-                            Fieldset::make('SERVICE INFORMATION')
-                                ->schema([
-                                    TextInput::make('name')->label('Name')->required()->default($record->name),
-                                    TextInput::make('avg_project')->label('Average Project')->required()->default($record->avg_project),
-                                ])->columns(1)
-                        ];
-                    }
-                )->modalWidth('lg')->modalHeading('Update Service'),
+            ),
             Tables\Actions\DeleteAction::make(),
         ];
+    }
+
+    public function updateCategory()
+    {
+        $data = ServiceCategory::where('id', $this->service_data->id)->first();
+        if ($this->attachment != null) {
+            foreach ($this->attachment as $key => $value) {
+                $data->update([
+                    'name' => $this->name,
+                    'avg_project' => $this->average,
+                    'description' => $this->description,
+                    'banner_path' => $value->store('ServiceCategory', 'public'),
+                ]);
+
+            }
+        } else {
+            $data->update([
+                'name' => $this->name,
+                'avg_project' => $this->average,
+                'description' => $this->description,
+                'banner_path' => $this->service_data->banner_path,
+            ]);
+        }
+        sweetalert()->addSuccess('Updated Successfully');
+        $this->reset('name', 'service_data', 'description', 'average', 'attachment');
+        $this->edit_modal = false;
+
     }
 
     public function render()

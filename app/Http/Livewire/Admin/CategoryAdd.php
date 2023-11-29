@@ -17,7 +17,7 @@ class CategoryAdd extends Component implements Forms\Contracts\HasForms
     use WithFileUploads;
     use Forms\Concerns\InteractsWithForms;
 
-    public $name, $average, $attachment;
+    public $name, $average, $attachment, $description;
     public function render()
     {
         return view('livewire.admin.category-add');
@@ -30,6 +30,7 @@ class CategoryAdd extends Component implements Forms\Contracts\HasForms
                 ->schema([
                     TextInput::make('name')->required(),
                     TextInput::make('average')->label('Average Project')->required(),
+                    TextInput::make('description')->label('Description')->required(),
                 ])
                 ->columns(2),
             Grid::make(3)
@@ -44,13 +45,15 @@ class CategoryAdd extends Component implements Forms\Contracts\HasForms
         $this->validate([
             'name' => 'required',
             'average' => 'required',
-            'attachment' => 'required'
+            'attachment' => 'required',
+            'description' => 'required',
         ]);
         sleep(3);
         foreach ($this->attachment as $key => $value) {
             ServiceCategory::create([
                 'name' => $this->name,
                 'avg_project' => $this->average,
+                'description' => $this->description,
                 'banner_path' => $value->store('ServiceCategory', 'public'),
             ]);
         }

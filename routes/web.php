@@ -29,8 +29,14 @@ Route::get('/', function () {
     }
 });
 Route::get('/sign-in', function () {
+    Session::pull('showForgotPassword');
     return view('pages.signin');
 })->name('signin');
+
+Route::get('/adminlogin', function () {
+    Session::pull('showForgotPassword');
+    return view('pages.admin-login');
+})->name('admin-login');
 
 Route::get('/location', function () {
     return view('pages.location');

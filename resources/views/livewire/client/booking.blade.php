@@ -16,28 +16,142 @@
                             @endif
                         </div>
                         <div>
-                            <div class="flex justify-between">
-                                <h1 class="font-medium uppercase text-gray-700">
-                                    {{ $service->service_provider->user->name }}
-                                </h1>
-                                <div>
-                                    <div x-data="{ rating: {{ \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)->orderBy('created_at', 'DESC')->first()->rating ?? 0 }} }">
+                            <div x-data="{ open: false }">
+                                <div class="flex justify-between items-end space-x-4">
+                                    <h1 class="font-medium uppercase text-gray-700">
+                                        {{ $service->service_provider->user->name }}
+                                    </h1>
+                                    <div>
+                                        @php
+                                            $total_ratings = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)->count();
 
-                                        <div class="flex items-center ">
-                                            <template x-for="i in 5">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 cursor-pointer"
-                                                    :class="{ 'fill-yellow-400': i <= rating, 'fill-gray-600': i > rating }"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path
-                                                        d="M12.0008 17L6.12295 20.5902L7.72105 13.8906L2.49023 9.40983L9.35577 8.85942L12.0008 2.5L14.6458 8.85942L21.5114 9.40983L16.2806 13.8906L17.8787 20.5902L12.0008 17Z">
-                                                    </path>
-                                                </svg>
-                                            </template>
+                                            if ($total_ratings > 0) {
+                                                $sumRatings = array_sum(
+                                                    \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                        ->pluck('rating')
+                                                        ->toArray(),
+                                                );
+                                                $averageRating = $sumRatings / $total_ratings;
+                                            } else {
+                                                $averageRating = 0; // Set a default value if there are no ratings
+                                            }
+                                        @endphp
+                                        <span class="text-xs">{{ number_format($averageRating, 1) }} out of 5</span>
+                                        <div x-data="{ rating: {{ number_format($averageRating, 1) }} }">
+                                            <div class="flex items-center">
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    @if (floor(number_format($averageRating, 1)) - $i >= 1)
+                                                        {{-- Full Star --}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            class="h-4 w-4 fill-yellow-400">
+                                                            <path
+                                                                d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z">
+                                                            </path>
+                                                        </svg>
+                                                    @elseif (number_format($averageRating, 1) - $i > 0)
+                                                        {{-- Half Star --}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            class="h-4 w-4 fill-yellow-400">
+                                                            <path
+                                                                d="M12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502V15.968ZM12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z">
+                                                            </path>
+                                                        </svg>
+                                                    @else
+                                                        {{-- Empty Star --}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            class="h-4 w-4 fill-gray-600">
+                                                            <path
+                                                                d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z">
+                                                            </path>
+                                                        </svg>
+                                                    @endif
+                                                @endfor
+                                            </div>
                                         </div>
+                                    </div>
+                                    <span class="text-sm cursor-pointer hover:text-green-600" x-on:click="open = !open">
+                                        @php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        @if ($all > 0)
+                                            {{ $all }} Reviews
+                                        @endif
+                                    </span>
+                                </div>
+                                <div x-animate x-show="open" class="grid grid-cols-5 gap-2">
+                                    <div class="border p-1 rounded-lg text-main text-xs border-main">
+                                        5 Star (
+                                        @php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                ->where('rating', 5)
+                                                ->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        {{ $all }}
+                                        )
+                                    </div>
+                                    <div class="border p-1 rounded-lg text-main text-xs border-main">
+                                        4 Star (@php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                ->where('rating', 4)
+                                                ->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        {{ $all }})
+                                    </div>
+                                    <div class="border p-1 rounded-lg text-main text-xs border-main">
+                                        3 Star (
+                                        @php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                ->where('rating', 3)
+                                                ->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        {{ $all }}
+                                        )
+                                    </div>
+                                    <div class="border p-1 rounded-lg text-main text-xs border-main">
+                                        2 Star (
+                                        @php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                ->where('rating', 2)
+                                                ->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        {{ $all }}
+                                        )
+                                    </div>
+                                    <div class="border p-1 rounded-lg text-main text-xs border-main">
+                                        1 Star (@php
+                                            $all = \App\Models\Feedback::where('service_provider_id', $service->service_provider_id)
+                                                ->where('rating', 1)
+                                                ->count();
+
+                                            if ($all >= 1000) {
+                                                $all = number_format($all / 1000, 1) . 'K';
+                                            }
+                                        @endphp
+                                        {{ $all }})
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-1 items-center">
+                            <div class="flex space-x-1 items-center mt-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     class="h-4 w-4 fill-red-500">
                                     <path

@@ -56,7 +56,7 @@
             </svg>
             <span>Close</span>
         </button>
-        <div class="relative top-0 bottom-0 right-0 flex-shrink-0 hidden w-1/3 overflow-hidden bg-cover lg:block">
+        <div class="relative top-0 bottom-0 right-0 flex-shrink-0 hidden w-1/3 overflow-auto bg-cover lg:block">
             <a href="#_"
                 class="absolute bottom-0 left-0 z-30 inline-flex items-end mb-4 ml-3 font-sans text-2xl font-extrabold text-left text-white no-underline bg-transparent cursor-pointer group focus:no-underline">
                 <img src="{{ asset('images/alisto-logo.png') }}" class="h-32 " alt="">
@@ -65,7 +65,7 @@
             <img src="https://plus.unsplash.com/premium_photo-1679775634064-93628bf1d0cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2xlYW5pbmclMjBzZXJ2aWNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
                 class="z-10 object-cover w-full h-full" />
         </div>
-        <div class="relative flex flex-wrap items-center w-full h-full px-8">
+        <div class="relative flex flex-wrap items-center w-full h-full overflow-y-auto px-8">
 
             <div class="relative w-full max-w-sm mx-auto lg:mb-0">
                 <div class="relative text-center">
@@ -76,7 +76,7 @@
                         </p>
                     </div>
                     <div class="space-y-2">
-                        <div class="text-left">
+                        {{-- <div class="text-left">
                             <input type="text" placeholder="Service Provider Name" wire:model.defer="provider_name"
                                 class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main disabled:cursor-not-allowed disabled:opacity-50">
                             @error('provider_name')
@@ -91,11 +91,12 @@
                             @enderror
                         </div>
                         <div class="text-left">
-                            <input type="number" placeholder="Phone Number" wire:model.defer="contact"
+                            <input type="number" id="phone" placeholder="Phone Number" wire:model.defer="contact"
                                 class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main disabled:cursor-not-allowed disabled:opacity-50">
                             @error('contact')
                                 <span class="error text-xs text-red-600 ml-2">{{ $message }}</span>
                             @enderror
+
                         </div>
                         <div class="text-left">
                             <input type="password" placeholder="Password" wire:model.defer="password"
@@ -110,7 +111,7 @@
                             @error('confirm_password')
                                 <span class="error text-xs text-red-600 ml-2">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="mt-3">
                             {{ $this->form }}
                         </div>
@@ -131,4 +132,11 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Inputmask('99999999999', {
+                placeholder: ''
+            }).mask(document.getElementById('phone'));
+        });
+    </script>
 </div>

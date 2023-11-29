@@ -31,6 +31,11 @@
                     <img src="{{ asset('images/alisto-logo.png') }}" class="h-32" alt="">
                 </a>
             </div>
+            @if (request()->routeIs('admin-login'))
+                <div class="mb-4">
+                    <H1 class="text-center font-bold text-xl text-main"> HELLO ADMIN</H1>
+                </div>
+            @endif
             <div class="mt-10">
                 {{ $slot }}
             </div>

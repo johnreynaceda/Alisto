@@ -46,7 +46,7 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
             Grid::make(2)
                 ->schema([
                     TextInput::make('firstname')->label('First Name')->required(),
-                    TextInput::make('middlename')->label('Middle Name')->required(),
+                    TextInput::make('middlename')->label('Middle Name'),
                     TextInput::make('lastname')->label('Last Name')->required(),
                     TextInput::make('contact_number')->numeric()->label('Contact Number')->required()->mask(fn(TextInput\Mask $mask) => $mask->pattern('00000000000')),
                     TextInput::make('address')->label('Address')->required(),
@@ -60,9 +60,9 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
     {
         $this->validate([
             'firstname' => 'required',
-            'middlename' => 'required',
+            // 'middlename' => 'required',
             'lastname' => 'required',
-            'contact_number' => 'required',
+            'contact_number' => 'required|digits:11',
             'address' => 'required',
             'zipcode' => 'required',
             'attachment' => 'required',
@@ -70,7 +70,7 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
         foreach ($this->attachment as $key => $item) {
             ClientInformation::create([
                 'firstname' => $this->firstname,
-                'middlename' => $this->middlename,
+                'middlename' => $this->middlename != null ? $this->middlename : '',
                 'lastname' => $this->lastname,
                 'user_id' => auth()->user()->id,
                 'contact_number' => $this->contact_number,
@@ -80,11 +80,22 @@ class ServicesOffered extends Component implements Tables\Contracts\HasTable
             ]);
         }
         $this->reset('firstname', 'middlename', 'lastname', 'contact_number', 'address', 'zipcode', 'attachment');
-        sweetalert()->addSuccess('Your Account has been created!');
+
+
+        // $this->dialog()->success(
+
+        //     $title = 'Details Submitted',
+
+        //     $description = 'Your Account has been created!'
+
+        // );
 
         $this->complete_details = false;
         $this->has_details = false;
+        sweetalert()->addSuccess('Your Account has been created!');
+
         return redirect()->route('dashboard');
+
 
     }
     public function render()

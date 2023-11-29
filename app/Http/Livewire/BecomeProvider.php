@@ -11,6 +11,7 @@ use Filament\Forms;
 use Illuminate\Contracts\View\View;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 
 class BecomeProvider extends Component implements Forms\Contracts\HasForms
 {
@@ -29,7 +30,12 @@ class BecomeProvider extends Component implements Forms\Contracts\HasForms
     protected function getFormSchema(): array
     {
         return [
-            FileUpload::make('attachment')->label('Valid ID')->required()
+            TextInput::make('provider_name')->label('Service Provider Name')->required(),
+            TextInput::make('email')->required(),
+            TextInput::make('contact')->required()->mask(fn(TextInput\Mask $mask) => $mask->pattern('00000000000')),
+            TextInput::make('password')->required()->password(),
+            TextInput::make('confirm_password')->required()->password(),
+            FileUpload::make('attachment')->label('Valid ID')->required()->helperText('Please enter a valid identification')
         ];
     }
 
